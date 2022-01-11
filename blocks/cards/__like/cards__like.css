@@ -1,0 +1,10 @@
+.cards__like {
+  cursor: pointer;
+  width: 22px;
+  height: 19px;
+  align-self: flex-end;
+}
+
+.cards__like:hover {
+  opacity: .5;
+}
