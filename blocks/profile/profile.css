@@ -5,3 +5,12 @@
   gap: 30px;
   align-items: center;
 }
+
+@media (max-width: 1070px) {
+  .profile {
+    padding: 42px 19px 0;
+    grid-template-columns: 282px;
+    gap: 0;
+    justify-content: center;
+  }
+}

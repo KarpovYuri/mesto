@@ -5,3 +5,11 @@
   line-height: 18px;
   color: #545454;
 }
+
+@media (max-width: 1070px) {
+  .footer {
+    padding: 48px 19px 36px;
+    font-size: 14px;
+    line-height: 14px;
+  }
+}
