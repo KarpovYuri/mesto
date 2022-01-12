@@ -13,10 +13,6 @@
   cursor: pointer;
 }
 
-.popup__close-button:hover {
-  opacity: .6;
-}
-
 @media (max-width: 633px) {
   .popup__close-button {
     width: 22px;

@@ -11,6 +11,7 @@
   font-size: 18px;
   line-height: 18px;
   font-weight: normal;
+  transition: opacity 0.25s;
 }
 
 .popup__submit-button:hover {

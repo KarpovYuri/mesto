@@ -1,6 +1,9 @@
 .header__logo {
+  display: block;
   width: 142px;
   height: 33px;
+  background-image: url(../../../images/logo.svg);
+  cursor: pointer;
 }
 
 @media (max-width: 1080px) {
@@ -8,5 +11,6 @@
     width: 104px;
     height: 25px;
     margin-left: 27px;
+    background-size: 104px 25px;
   }
 }
