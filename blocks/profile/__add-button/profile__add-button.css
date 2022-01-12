@@ -9,13 +9,14 @@
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
+  grid-area: add-button;
 }
 
 .profile__add-button:hover {
   opacity: .6;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 1080px) {
   .profile__add-button {
     margin: 36px auto 0;
     width: 282px;

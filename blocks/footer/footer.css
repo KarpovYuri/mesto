@@ -6,7 +6,7 @@
   color: #545454;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 1080px) {
   .footer {
     padding: 48px 19px 36px;
     font-size: 14px;

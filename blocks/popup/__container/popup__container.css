@@ -1,4 +1,4 @@
-.popup__edit-form {
+.popup__container {
   width: 430px;
   position: relative;
   background-color: #fff;
@@ -6,8 +6,8 @@
   box-shadow: 0 0 25px rgba(0, 0, 0, .15);
 }
 
-@media (max-width: 1070px) {
-  .popup__edit-form {
+@media (max-width: 633px) {
+  .popup__container {
     width: 282px;
   }
 }

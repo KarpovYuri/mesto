@@ -3,7 +3,7 @@
   height: 33px;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 1080px) {
   .header__logo {
     width: 104px;
     height: 25px;
