@@ -4,9 +4,10 @@
   object-fit: cover;
   object-position: center;
   border-radius: 50%;
+  grid-area: avatar;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 1080px) {
   .profile__avatar {
     margin: 0 auto;
   }

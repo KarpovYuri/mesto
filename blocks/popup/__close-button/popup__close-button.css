@@ -17,7 +17,7 @@
   opacity: .6;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 633px) {
   .popup__close-button {
     width: 22px;
     height: 22px;
