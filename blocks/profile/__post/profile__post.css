@@ -1,6 +1,10 @@
 .profile__post {
-  margin: 16px 0 0;
+  margin: 0;
   font-size: 18px;
   line-height: 22px;
   font-weight: normal;
+  grid-area: post;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
