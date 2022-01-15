@@ -1,3 +1,5 @@
+// Данные начальных карточек
+
 const initialCards = [{
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -24,44 +26,85 @@ const initialCards = [{
   }
 ];
 
+
+// Переменные карточек
+
 let cardPicture;
 let cardTitle;
 const cardsContainer = document.querySelector('.cards');
 
+
+// Переменные профиля
+
 const profile = document.querySelector('.profile');
 const editButton = profile.querySelector('.profile__edit-button');
+const addButton = profile.querySelector('.profile__add-button');
 let profileName = profile.querySelector('.profile__name');
 let profileJob = profile.querySelector('.profile__job');
 
-const popup = document.querySelector('.popup');
-const closeButton = popup.querySelector('.popup__close-button');
-let nameInput = popup.querySelector('#nameInput');
-let jobInput = popup.querySelector('#jobInput');
 
-//Функция открытия модального окна
+// Переменные popup'a редактирования профиля
+
+const popupEdit = document.querySelector('#popup-edit');
+const editCloseButton = popupEdit.querySelector('.popup__close-button');
+let nameInput = popupEdit.querySelector('#nameInput');
+let jobInput = popupEdit.querySelector('#jobInput');
+
+
+// Переменные popup'a добавления карточки
+
+const popupAdd = document.querySelector('#popup-add');
+const addCloseButton = popupAdd.querySelector('.popup__close-button');
+
+
+// Открытие popup'ов
 
 function popupOpen() {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
-  popup.classList.add('popup_opened');
+  switch (this.id) {
+    case 'edit-button':
+      nameInput.value = profileName.textContent;
+      jobInput.value = profileJob.textContent;
+      popupEdit.classList.add('popup_opened');
+      break;
+    case 'add-button':
+      popupAdd.classList.add('popup_opened');
+      break;
+  }
 }
 
-//Функция закрытия модального окна
+// Закрытие popup'ов
 
 function popupClose() {
-  popup.classList.remove('popup_opened');
+  switch (this.id) {
+    case 'edit-close':
+      popupEdit.classList.remove('popup_opened');
+      break;
+    case 'add-close':
+      popupAdd.classList.remove('popup_opened');
+      break;
+  }
 }
 
-// Функция изменения данных профиля
 
-function formSubmit(evt) {
+// Сохранение данных профиля
+
+function editFormSubmit(evt) {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
-  popupClose();
+  popupEdit.classList.remove('popup_opened');
 }
 
-// Функция добавления карточки
+
+// Сохранение данных карточки
+
+function addFormSubmit(evt) {
+  evt.preventDefault();
+  popupAdd.classList.remove('popup_opened');
+}
+
+
+// Добавление карточки
 
 function addCard() {
   cardsContainer.innerHTML = `
@@ -84,8 +127,13 @@ for (let i = 5; i >= 0; i--) {
   addCard();
 }
 
-// Слушатели открытия и закрытия модального окна
+
+// Обработчики событий кнопок
 
 editButton.addEventListener('click', popupOpen);
-closeButton.addEventListener('click', popupClose);
-popup.addEventListener('submit', formSubmit);
+editCloseButton.addEventListener('click', popupClose);
+popupEdit.addEventListener('submit', editFormSubmit);
+
+addButton.addEventListener('click', popupOpen);
+addCloseButton.addEventListener('click', popupClose);
+popupAdd.addEventListener('submit', addFormSubmit);
