@@ -106,6 +106,10 @@ function addFormSubmit(evt) {
   cardPicture = pictureInput.value;
   addCard();
   popupAdd.classList.remove('popup_opened');
+
+  // Переназначаем обрботчики событий кнопкам 'like' после добавления карточки
+  cards = cardsContainer.querySelectorAll('.card__like');
+  setLikeEventListener();
 }
 
 
@@ -117,10 +121,31 @@ function addCard() {
       <img src="${cardPicture}" alt="${cardTitle}" class="card__picture">
       <div class="card__info">
         <h2 class="card__title">${cardTitle}</h2>
-        <img src="images/heart_disabled.svg" alt="Иконка сердечка" class="card__like">
+        <button type="button" aria-label="Иконка сердечка" class="card__like"></button>
       </div>
     </div>
   ` + cardsContainer.innerHTML;
+}
+
+
+// Добаить/Удалить лайк
+
+function addLike() {
+  if (this.classList[this.classList.length - 1] === 'card__like_active') {
+    console.log(this.classList[this.classList.length - 1]);
+    this.classList.remove('card__like_active');
+  } else {
+    this.classList.add('card__like_active');
+  }
+}
+
+
+// Перебор кнопок 'Лайк' и назначение обработчиков
+
+function setLikeEventListener() {
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].addEventListener('click', addLike);
+  }
 }
 
 
@@ -131,6 +156,12 @@ for (let i = 5; i >= 0; i--) {
   cardTitle = initialCards[i].name;
   addCard();
 }
+
+
+// Назначаем обрботчик событий кнопкам 'Лайк'
+
+let cards = cardsContainer.querySelectorAll('.card__like');
+setLikeEventListener();
 
 
 // Обработчики событий кнопок
