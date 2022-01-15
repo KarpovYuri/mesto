@@ -107,9 +107,10 @@ function addFormSubmit(evt) {
   addCard();
   popupAdd.classList.remove('popup_opened');
 
-  // Переназначаем обрботчики событий кнопкам 'like' после добавления карточки
-  cards = cardsContainer.querySelectorAll('.card__like');
-  setLikeEventListener();
+  // Переназначаем обрботчики событий кнопкам 'like' и 'trash' после добавления карточки
+  likes = cardsContainer.querySelectorAll('.card__like');
+  trashes = cardsContainer.querySelectorAll('.card__trash');
+  setButtonEventListener();
 }
 
 
@@ -118,6 +119,7 @@ function addFormSubmit(evt) {
 function addCard() {
   cardsContainer.innerHTML = `
     <div class="card">
+      <button type="button" aria-label="Иконка мусорного бака" class="card__trash fade-opacity"></button>
       <img src="${cardPicture}" alt="${cardTitle}" class="card__picture">
       <div class="card__info">
         <h2 class="card__title">${cardTitle}</h2>
@@ -128,11 +130,17 @@ function addCard() {
 }
 
 
-// Добаить/Удалить лайк
+// Удаление карточки
+
+function removeCard() {
+  this.parentElement.remove();
+}
+
+
+// Добавление/Удаление лайка
 
 function addLike() {
   if (this.classList[this.classList.length - 1] === 'card__like_active') {
-    console.log(this.classList[this.classList.length - 1]);
     this.classList.remove('card__like_active');
   } else {
     this.classList.add('card__like_active');
@@ -140,11 +148,12 @@ function addLike() {
 }
 
 
-// Перебор кнопок 'Лайк' и назначение обработчиков
+// Перебор кнопок 'like' и 'trash' и назначение обработчиков
 
-function setLikeEventListener() {
-  for (let i = 0; i < cards.length; i++) {
-    cards[i].addEventListener('click', addLike);
+function setButtonEventListener() {
+  for (let i = 0; i < likes.length; i++) {
+    likes[i].addEventListener('click', addLike);
+    trashes[i].addEventListener('click', removeCard);
   }
 }
 
@@ -158,13 +167,14 @@ for (let i = 5; i >= 0; i--) {
 }
 
 
-// Назначаем обрботчик событий кнопкам 'Лайк'
+// Назначение обрботчиков событий кнопкам 'Лайк'
 
-let cards = cardsContainer.querySelectorAll('.card__like');
-setLikeEventListener();
+let likes = cardsContainer.querySelectorAll('.card__like');
+let trashes = cardsContainer.querySelectorAll('.card__trash');
+setButtonEventListener();
 
 
-// Обработчики событий кнопок
+// Назначение обрботчиков событий остальных кнопок
 
 editButton.addEventListener('click', popupOpen);
 editCloseButton.addEventListener('click', popupClose);
