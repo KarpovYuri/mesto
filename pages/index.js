@@ -55,6 +55,8 @@ let jobInput = popupEdit.querySelector('#jobInput');
 
 const popupAdd = document.querySelector('#popup-add');
 const addCloseButton = popupAdd.querySelector('.popup__close-button');
+let titleInput = popupAdd.querySelector('#titleInput');
+let pictureInput = popupAdd.querySelector('#pictureInput');
 
 
 // Открытие popup'ов
@@ -100,11 +102,14 @@ function editFormSubmit(evt) {
 
 function addFormSubmit(evt) {
   evt.preventDefault();
+  cardTitle = titleInput.value;
+  cardPicture = pictureInput.value;
+  addCard();
   popupAdd.classList.remove('popup_opened');
 }
 
 
-// Добавление карточки
+// Добавление HTML-кода карточки
 
 function addCard() {
   cardsContainer.innerHTML = `
