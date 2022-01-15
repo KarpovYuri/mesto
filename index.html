@@ -14,7 +14,7 @@
     <div class="page">
 
       <header class="header">
-        <img src="images/logo.svg" alt="Логотип Mesto Russia" class="header__logo">
+        <a href="#" aria-label="Логотип Mesto Russia" class="header__logo fade-opacity"></a>
       </header>
 
       <main>
@@ -23,72 +23,29 @@
           <img src="images/avatar.jpg" alt="Жак-Ив Кусто" class="profile__avatar">
           <div class="profile__info">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <button class="profile__edit-button"></button>
+            <button type="button" aria-label="Кнопка редактирования профиля" class="profile__edit-button fade-opacity"></button>
           </div>
           <p class="profile__job">Исследователь океана</p>
-          <button class="profile__add-button"></button>
+          <button type="button" aria-label="Кнопка добавления карточки" class="profile__add-button fade-opacity"></button>
         </section>
 
-        <section class="cards">
-          <div class="cards__card">
-            <img src="images/karachayevsk.jpg" alt="Полуразрушенная церковь на фоне гор" class="cards__picture">
-            <div class="cards__info">
-              <h2 class="cards__title">Карачаевск</h2>
-              <img src="images/heart_disabled.svg" alt="Иконка сердечка" class="cards__like">
-            </div>
-          </div>
-          <div class="cards__card">
-            <img src="images/mount-elbrus.jpg" alt="Гора за горизонтом" class="cards__picture">
-            <div class="cards__info">
-              <h2 class="cards__title">Гора Эльбрус</h2>
-              <img src="images/heart_disabled.svg" alt="Иконка сердечка" class="cards__like">
-            </div>
-          </div>
-          <div class="cards__card">
-            <img src="images/dombay.jpg" alt="Заснеженные горы" class="cards__picture">
-            <div class="cards__info">
-              <h2 class="cards__title">Домбай</h2>
-              <img src="images/heart_disabled.svg" alt="Иконка сердечка" class="cards__like">
-            </div>
-          </div>
-          <div class="cards__card">
-            <img src="images/voronezh-reservoir.jpg" alt="Мост через водохранилище" class="cards__picture">
-            <div class="cards__info">
-              <h2 class="cards__title">Воронежское водохранилище</h2>
-              <img src="images/heart_disabled.svg" alt="Иконка сердечка" class="cards__like">
-            </div>
-          </div>
-          <div class="cards__card">
-            <img src="images/voronezh.jpg" alt="Городское здание с башней" class="cards__picture">
-            <div class="cards__info">
-              <h2 class="cards__title">Воронеж</h2>
-              <img src="images/heart_disabled.svg" alt="Иконка сердечка" class="cards__like">
-            </div>
-          </div>
-          <div class="cards__card">
-            <img src="images/karachay-cherkessia.jpg" alt="Горное озеро" class="cards__picture">
-            <div class="cards__info">
-              <h2 class="cards__title">Карачаево-Черкессия</h2>
-              <img src="images/heart_disabled.svg" alt="Иконка сердечка" class="cards__like">
-            </div>
-          </div>
-        </section>
+        <section class="cards"></section>
 
       </main>
 
       <footer class="footer">&copy; 2022 Карпов Юрий</footer>
 
-      <section class="popup">
+      <article class="popup">
         <div class="popup__container">
           <h2 class="popup__title">Редактировать профиль</h2>
-          <form class="popup__form">
-            <input type="text" class="popup__field" id="nameInput">
-            <input type="text" class="popup__field" id="jobInput">
-            <button class="popup__submit-button">Сохранить</button>
+          <form class="popup__form" name="profile-form">
+            <input type="text" class="popup__field" id="nameInput" name="profile-name">
+            <input type="text" class="popup__field" id="jobInput" name="profile-job">
+            <button type="submit" class="popup__submit-button">Сохранить</button>
           </form>
-          <button class="popup__close-button"></button>
+          <button type="button" class="popup__close-button fade-opacity"></button>
         </div>
-      </section>
+      </article>
 
     </div>
 

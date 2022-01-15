@@ -1,4 +1,4 @@
-.cards__title {
+.card__title {
   margin: 0;
   color: #000;
   font-size: 24px;
@@ -7,4 +7,5 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  max-width: 215px;
 }
