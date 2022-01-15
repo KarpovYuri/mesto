@@ -59,6 +59,14 @@ let titleInput = popupAdd.querySelector('#titleInput');
 let pictureInput = popupAdd.querySelector('#pictureInput');
 
 
+// Переменные popup'a изображения
+
+const popupImage = document.querySelector('#popup-image');
+const imageCloseButton = popupImage.querySelector('.popup__close-button');
+let imageTeg = popupImage.querySelector('.popup__image');
+let signatureTeg = popupImage.querySelector('.popup__signature');
+
+
 // Открытие popup'ов
 
 function popupOpen() {
@@ -71,6 +79,11 @@ function popupOpen() {
     case 'add-button':
       popupAdd.classList.add('popup_opened');
       break;
+    default:
+      imageTeg.src = this.src;
+      imageTeg.alt = this.alt;
+      signatureTeg.textContent = this.alt;
+      popupImage.classList.add('popup_opened');
   }
 }
 
@@ -83,6 +96,9 @@ function popupClose() {
       break;
     case 'add-close':
       popupAdd.classList.remove('popup_opened');
+      break;
+    case 'image-close':
+      popupImage.classList.remove('popup_opened');
       break;
   }
 }
@@ -107,7 +123,8 @@ function addFormSubmit(evt) {
   addCard();
   popupAdd.classList.remove('popup_opened');
 
-  // Переназначаем обрботчики событий кнопкам 'like' и 'trash' после добавления карточки
+  // Переназначение обрботчиков событий изображениям, кнопкам 'like' и 'trash' после добавления карточки
+  pictures = cardsContainer.querySelectorAll('.card__picture');
   likes = cardsContainer.querySelectorAll('.card__like');
   trashes = cardsContainer.querySelectorAll('.card__trash');
   setButtonEventListener();
@@ -148,10 +165,11 @@ function addLike() {
 }
 
 
-// Перебор кнопок 'like' и 'trash' и назначение обработчиков
+// Перебор изображений, кнопок 'like' и 'trash' с назначение обработчиков
 
 function setButtonEventListener() {
-  for (let i = 0; i < likes.length; i++) {
+  for (let i = 0; i < pictures.length; i++) {
+    pictures[i].addEventListener('click', popupOpen);
     likes[i].addEventListener('click', addLike);
     trashes[i].addEventListener('click', removeCard);
   }
@@ -167,8 +185,9 @@ for (let i = 5; i >= 0; i--) {
 }
 
 
-// Назначение обрботчиков событий кнопкам 'Лайк'
+// Назначение обрботчиков событий изображениям, кнопкам 'like' и 'trash'
 
+let pictures = cardsContainer.querySelectorAll('.card__picture');
 let likes = cardsContainer.querySelectorAll('.card__like');
 let trashes = cardsContainer.querySelectorAll('.card__trash');
 setButtonEventListener();
@@ -183,3 +202,5 @@ popupEdit.addEventListener('submit', editFormSubmit);
 addButton.addEventListener('click', popupOpen);
 addCloseButton.addEventListener('click', popupClose);
 popupAdd.addEventListener('submit', addFormSubmit);
+
+imageCloseButton.addEventListener('click', popupClose);

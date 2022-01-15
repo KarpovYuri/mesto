@@ -36,26 +36,34 @@
       <footer class="footer">&copy; 2022 Карпов Юрий</footer>
 
       <article class="popup" id="popup-edit">
-        <div class="popup__container">
+        <div class="popup__container popup__container_show_form">
           <h2 class="popup__title">Редактировать профиль</h2>
           <form class="popup__form" name="profile-form">
             <input type="text" class="popup__field" id="nameInput" name="profile-name">
             <input type="text" class="popup__field" id="jobInput" name="profile-job">
-            <button type="submit" class="popup__submit-button">Сохранить</button>
+            <button type="submit" aria-label="Кнопка сохранения формы" class="popup__submit-button">Сохранить</button>
           </form>
-          <button type="button" class="popup__close-button fade-opacity" id="edit-close"></button>
+          <button type="button" aria-label="Кнопка закрытия окна" class="popup__close-button fade-opacity" id="edit-close"></button>
         </div>
       </article>
 
       <article class="popup" id="popup-add">
-        <div class="popup__container">
+        <div class="popup__container popup__container_show_form">
           <h2 class="popup__title">Новое место</h2>
           <form class="popup__form" name="profile-form">
             <input type="text" placeholder="Название" class="popup__field" id="titleInput" name="card-title">
             <input type="text" placeholder="Ссылка на картинку" class="popup__field" id="pictureInput" name="card-picture">
-            <button type="submit" class="popup__submit-button">Создать</button>
+            <button type="submit" aria-label="Кнопка сохранения формы" class="popup__submit-button">Создать</button>
           </form>
-          <button type="button" class="popup__close-button fade-opacity" id="add-close"></button>
+          <button type="button" aria-label="Кнопка закрытия окна" class="popup__close-button fade-opacity" id="add-close"></button>
+        </div>
+      </article>
+
+      <article class="popup popup_overlay_dark" id="popup-image">
+        <div class="popup__container popup__container_show_image">
+          <img src="#" alt="" class="popup__image">
+          <p class="popup__signature"></p>
+          <button type="button" aria-label="Кнопка закрытия окна" class="popup__close-button fade-opacity" id="image-close"></button>
         </div>
       </article>
 
