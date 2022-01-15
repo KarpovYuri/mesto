@@ -12,10 +12,6 @@
   grid-area: add-button;
 }
 
-.profile__add-button:hover {
-  opacity: .6;
-}
-
 @media (max-width: 1080px) {
   .profile__add-button {
     margin: 36px auto 0;
