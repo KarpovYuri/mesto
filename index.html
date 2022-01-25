@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Проектная работа 4 на Яндекс.Практикуме">
+    <meta name="description" content="Проектная работа 5 на Яндекс.Практикуме">
     <meta name="author" content="Карпов Юрий">
     <link rel="stylesheet" href="pages/index.css">
     <title>Место</title>
@@ -68,6 +68,17 @@
       </article>
 
     </div>
+
+    <template id="card-template">
+      <div class="card">
+        <button type="button" aria-label="Иконка мусорного бака" class="card__trash fade-opacity"></button>
+          <img src="#" alt="" class="card__picture" id="card-image">
+          <div class="card__info">
+            <h2 class="card__title"></h2>
+            <button type="button" aria-label="Иконка сердечка" class="card__like"></button>
+          </div>
+      </div>
+    </template>
 
     <script src="pages/index.js"></script>
 
