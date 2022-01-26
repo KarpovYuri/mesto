@@ -80,7 +80,7 @@ function popupOpen() {
     case 'add-button':
       popupAdd.classList.add('popup_opened');
       break;
-    case 'card-image':
+    default:
       imageTeg.src = this.src;
       imageTeg.alt = this.alt;
       signatureTeg.textContent = this.alt;
