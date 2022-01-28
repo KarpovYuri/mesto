@@ -2,7 +2,6 @@
   width: 100%;
   padding: 0 0 6px;
   min-height: 27px;
-  margin-bottom: 30px;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, .2);
   font-size: 14px;
@@ -10,8 +9,5 @@
   font-weight: normal;
   color: #000;
   box-sizing: border-box;
-}
-
-.popup__field:last-of-type {
-  margin-bottom: 0;
+  position: relative;
 }
