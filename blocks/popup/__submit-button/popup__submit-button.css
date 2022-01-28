@@ -2,7 +2,7 @@
   cursor: pointer;
   width: 358px;
   height: 50px;
-  margin-top: 48px;
+  margin-top: 18px;
   padding: 0;
   background-color: #000;
   border: none;
@@ -22,7 +22,7 @@
   .popup__submit-button {
     width: 238px;
     height: 46px;
-    margin-top: 45px;
+    margin-top: 15px;
     font-size: 14px;
     line-height: 17px;
   }

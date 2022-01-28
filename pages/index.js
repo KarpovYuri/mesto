@@ -1,11 +1,9 @@
 // Переменные данных карточки
-
 const cardsContainer = document.querySelector('.cards');
 const cardTemplate = document.querySelector('#card-template').content;
 
 
 // Переменные данных профиля
-
 const profile = document.querySelector('.profile');
 const editButton = profile.querySelector('.profile__edit-button');
 const addButton = profile.querySelector('.profile__add-button');
@@ -14,7 +12,6 @@ const profileJob = profile.querySelector('.profile__job');
 
 
 // Переменные popup'a редактирования профиля
-
 const popupEdit = document.querySelector('#popup-edit');
 const editCloseButton = popupEdit.querySelector('.popup__close-button');
 const nameInput = popupEdit.querySelector('#nameInput');
@@ -22,7 +19,6 @@ const jobInput = popupEdit.querySelector('#jobInput');
 
 
 // Переменные popup'a добавления карточки
-
 const popupAdd = document.querySelector('#popup-add');
 const addCloseButton = popupAdd.querySelector('.popup__close-button');
 const titleInput = popupAdd.querySelector('#titleInput');
@@ -30,31 +26,39 @@ const pictureInput = popupAdd.querySelector('#pictureInput');
 
 
 // Переменные popup'a изображения
-
 const popupImage = document.querySelector('#popup-image');
 const imageCloseButton = popupImage.querySelector('.popup__close-button');
 const imageTeg = popupImage.querySelector('.popup__image');
 const signatureTeg = popupImage.querySelector('.popup__signature');
 
 
-// Открытие popup'ов
+// Объект классов необходимый для запуса валидации
+const formObject = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__field',
+  submitButtonSelector: '.popup__submit-button',
+  inactiveButtonClass: 'popup__submit-button_inactive',
+  inputErrorClass: 'popup__field_type_error',
+  errorClass: 'popup__input-error_active',
+  inactiveEnterType: 'button',
+  activeEnterType: 'submit'
+}
 
+
+// Открытие popup'ов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
 }
 
 
 // Закрытие popup'ов
-
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
 }
 
 
 // Добавление данных профиля на страницу
-
-function editFormSubmit(evt) {
-  evt.preventDefault();
+function editFormSubmit() {
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
   closePopup(popupEdit);
@@ -62,9 +66,7 @@ function editFormSubmit(evt) {
 
 
 // Добавление пользовательской карточки
-
 function addFormSubmit(evt) {
-  evt.preventDefault();
   const card = createCard(titleInput.value, pictureInput.value);
   addCard(card);
   closePopup(popupAdd);
@@ -73,7 +75,6 @@ function addFormSubmit(evt) {
 
 
 // Создание карточки
-
 function createCard(name, link) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   cardElement.querySelector('.card__picture').src = link;
@@ -96,14 +97,12 @@ function createCard(name, link) {
 
 
 // Вывод карточки на страницу
-
 function addCard(card) {
   cardsContainer.prepend(card);
 }
 
 
 // Вывод начальных карточек
-
 initialCards.reverse().forEach((elem) => {
   const card = createCard(elem.name, elem.link);
   addCard(card);
@@ -111,16 +110,21 @@ initialCards.reverse().forEach((elem) => {
 
 
 // Назначение обрботчиков событий кнопкам
-
-editButton.addEventListener('click', (evt) => {
+editButton.addEventListener('click', () => {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   openPopup(popupEdit);
+  enableValidation(popupEdit, formObject);
 });
 
-editCloseButton.addEventListener('click', closePopup.bind(null, popupEdit));
+editCloseButton.addEventListener('click', () => {
+  closePopup(popupEdit)
+});
 popupEdit.addEventListener('submit', editFormSubmit);
-addButton.addEventListener('click', openPopup.bind(null, popupAdd));
+addButton.addEventListener('click', () => {
+  openPopup(popupAdd)
+  enableValidation(popupAdd, formObject);
+});
 
 addCloseButton.addEventListener('click', (evt) => {
   closePopup(popupAdd);
@@ -128,4 +132,6 @@ addCloseButton.addEventListener('click', (evt) => {
 });
 
 popupAdd.addEventListener('submit', addFormSubmit);
-imageCloseButton.addEventListener('click', closePopup.bind(null, popupImage));
+imageCloseButton.addEventListener('click', () => {
+  closePopup(popupImage)
+});
