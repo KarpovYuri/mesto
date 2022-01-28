@@ -45,15 +45,28 @@ const formObject = {
 }
 
 
+// Закрытие popup'ов по нажатию Esc
+function escapePress(evt) {
+  if (evt.key === 'Escape') {
+    const popup = document.querySelector('.popup_opened')
+    closePopup();
+    if (popup.id === 'popup-add') popup.querySelector('.popup__form').reset();
+  }
+}
+
 // Открытие popup'ов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  // Назначаем обработчик при открытии
+  document.addEventListener('keydown', escapePress);
 }
 
 
 // Закрытие popup'ов
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
+function closePopup() {
+  document.querySelector('.popup_opened').classList.remove('popup_opened');
+  // Удаляем обработчик при закрытии
+  document.removeEventListener('keydown', escapePress);
 }
 
 
@@ -61,7 +74,7 @@ function closePopup(popup) {
 function editFormSubmit() {
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
-  closePopup(popupEdit);
+  closePopup();
 }
 
 
@@ -69,7 +82,7 @@ function editFormSubmit() {
 function addFormSubmit(evt) {
   const card = createCard(titleInput.value, pictureInput.value);
   addCard(card);
-  closePopup(popupAdd);
+  closePopup();
   evt.target.reset();
 }
 
@@ -80,18 +93,6 @@ function createCard(name, link) {
   cardElement.querySelector('.card__picture').src = link;
   cardElement.querySelector('.card__picture').alt = name;
   cardElement.querySelector('.card__title').textContent = name;
-  cardElement.querySelector('.card__like').addEventListener('click', (evt) => {
-    evt.target.classList.toggle('card__like_active');
-  });
-  cardElement.querySelector('.card__trash').addEventListener('click', (evt) => {
-    evt.target.parentElement.remove();
-  });
-  cardElement.querySelector('.card__picture').addEventListener('click', (evt) => {
-    imageTeg.src = evt.target.src;
-    imageTeg.alt = evt.target.alt;
-    signatureTeg.textContent = evt.target.alt;
-    openPopup(popupImage);
-  });
   return cardElement;
 }
 
@@ -109,6 +110,26 @@ initialCards.reverse().forEach((elem) => {
 });
 
 
+// Назначение обработчиков карточкам
+
+cardsContainer.addEventListener('click', (evt) => {
+  if (evt.target.classList.contains('card__like')) {
+    evt.target.classList.toggle('card__like_active');
+  } else {
+    if (evt.target.classList.contains('card__trash')) {
+      evt.target.parentElement.remove();
+    } else {
+      if (evt.target.classList.contains('card__picture')) {
+        imageTeg.src = evt.target.src;
+        imageTeg.alt = evt.target.alt;
+        signatureTeg.textContent = evt.target.alt;
+        openPopup(popupImage);
+      }
+    }
+  }
+});
+
+
 // Назначение обрботчиков событий кнопкам формы профиля
 editButton.addEventListener('click', () => {
   nameInput.value = profileName.textContent;
@@ -116,9 +137,7 @@ editButton.addEventListener('click', () => {
   openPopup(popupEdit);
   enableValidation(popupEdit, formObject);
 });
-editCloseButton.addEventListener('click', () => {
-  closePopup(popupEdit)
-});
+editCloseButton.addEventListener('click', closePopup);
 popupEdit.addEventListener('submit', editFormSubmit);
 
 
@@ -128,28 +147,30 @@ addButton.addEventListener('click', () => {
   enableValidation(popupAdd, formObject);
 });
 addCloseButton.addEventListener('click', (evt) => {
-  closePopup(popupAdd);
+  closePopup();
   evt.target.previousElementSibling.reset();
 });
 popupAdd.addEventListener('submit', addFormSubmit);
 
 
 // Назначение обработчиков событий модального окна изображения
-imageCloseButton.addEventListener('click', () => {
-  closePopup(popupImage)
-});
+imageCloseButton.addEventListener('click', closePopup);
 
 
 // Назначение обработчиков событий overlay'ям
 popupEdit.addEventListener('click', (evt) => {
   if (evt.target.id === 'popup-edit') {
-    closePopup(popupEdit)
+    closePopup();
   }
 });
-
 popupAdd.addEventListener('click', (evt) => {
   if (evt.target.id === 'popup-add') {
-    closePopup(popupAdd)
+    closePopup();
     evt.target.querySelector('.popup__form').reset();
+  }
+});
+popupImage.addEventListener('click', (evt) => {
+  if (evt.target.id === 'popup-image') {
+    closePopup();
   }
 });
