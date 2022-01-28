@@ -109,29 +109,47 @@ initialCards.reverse().forEach((elem) => {
 });
 
 
-// Назначение обрботчиков событий кнопкам
+// Назначение обрботчиков событий кнопкам формы профиля
 editButton.addEventListener('click', () => {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   openPopup(popupEdit);
   enableValidation(popupEdit, formObject);
 });
-
 editCloseButton.addEventListener('click', () => {
   closePopup(popupEdit)
 });
 popupEdit.addEventListener('submit', editFormSubmit);
+
+
+// Назначение обрботчиков событий кнопкам формы добавления карточки
 addButton.addEventListener('click', () => {
   openPopup(popupAdd)
   enableValidation(popupAdd, formObject);
 });
-
 addCloseButton.addEventListener('click', (evt) => {
   closePopup(popupAdd);
   evt.target.previousElementSibling.reset();
 });
-
 popupAdd.addEventListener('submit', addFormSubmit);
+
+
+// Назначение обработчиков событий модального окна изображения
 imageCloseButton.addEventListener('click', () => {
   closePopup(popupImage)
+});
+
+
+// Назначение обработчиков событий overlay'ям
+popupEdit.addEventListener('click', (evt) => {
+  if (evt.target.id === 'popup-edit') {
+    closePopup(popupEdit)
+  }
+});
+
+popupAdd.addEventListener('click', (evt) => {
+  if (evt.target.id === 'popup-add') {
+    closePopup(popupAdd)
+    evt.target.querySelector('.popup__form').reset();
+  }
 });
