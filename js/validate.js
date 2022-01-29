@@ -1,6 +1,6 @@
 // Функция показа ошибки
-function showInputError(form, inputElement, errorMessage, inputErrorClass, errorClass) {
-  const errorElement = form.querySelector(`.${inputElement.id}-error`);
+function showInputError(formElement, inputElement, errorMessage, inputErrorClass, errorClass) {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add(inputErrorClass);
   errorElement.textContent = errorMessage;
   errorElement.classList.add(errorClass);
@@ -8,8 +8,8 @@ function showInputError(form, inputElement, errorMessage, inputErrorClass, error
 
 
 // Функция скрытия ошибки
-function hideInputError(form, inputElement, inputErrorClass, errorClass) {
-  const errorElement = form.querySelector(`.${inputElement.id}-error`);
+function hideInputError(formElement, inputElement, inputErrorClass, errorClass) {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.remove(inputErrorClass);
   errorElement.classList.remove(errorClass);
   errorElement.textContent = '';
@@ -17,11 +17,11 @@ function hideInputError(form, inputElement, inputErrorClass, errorClass) {
 
 
 // Вызов функций показа/скрытия ошибок
-function checkInputValidity(form, inputElement, inputErrorClass, errorClass) {
+function checkInputValidity(formElement, inputElement, inputErrorClass, errorClass) {
   if (!inputElement.validity.valid) {
-    showInputError(form, inputElement, inputElement.validationMessage, inputErrorClass, errorClass);
+    showInputError(formElement, inputElement, inputElement.validationMessage, inputErrorClass, errorClass);
   } else {
-    hideInputError(form, inputElement, inputErrorClass, errorClass);
+    hideInputError(formElement, inputElement, inputErrorClass, errorClass);
   }
 };
 
@@ -46,20 +46,26 @@ function toggleButtonState(inputList, buttonElement, inactiveButtonClass, inacti
 };
 
 
-// Функция запуска валидации
-function enableValidation(popup, obj) {
-  const form = popup.querySelector(obj.formSelector)
-  const inputList = Array.from(form.querySelectorAll(obj.inputSelector));
-  const buttonElement = form.querySelector(obj.submitButtonSelector);
-  form.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-  });
-  toggleButtonState(inputList, buttonElement, obj.inactiveButtonClass, obj.inactiveEnterType, obj.activeEnterType);
+// Установка обработчиков событий
+function setEventListeners(formElement, obj) {
+  const inputList = Array.from(formElement.querySelectorAll(obj.inputSelector));
+  const buttonElement = formElement.querySelector(obj.submitButtonSelector);
   inputList.forEach((inputElement) => {
-    hideInputError(form, inputElement, obj.inputErrorClass, obj.errorClass);
     inputElement.addEventListener('input', function () {
-      checkInputValidity(form, inputElement, obj.inputErrorClass, obj.errorClass);
+      checkInputValidity(formElement, inputElement, obj.inputErrorClass, obj.errorClass);
       toggleButtonState(inputList, buttonElement, obj.inactiveButtonClass, obj.inactiveEnterType, obj.activeEnterType);
     });
+  });
+};
+
+
+// Запуск валидации
+function enableValidation(obj) {
+  const formList = Array.from(document.querySelectorAll(obj.formSelector));
+  formList.forEach((formElement) => {
+    formElement.addEventListener('submit', function (evt) {
+      evt.preventDefault();
+    });
+    setEventListeners(formElement, obj);
   });
 };

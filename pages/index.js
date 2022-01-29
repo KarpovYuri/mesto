@@ -12,7 +12,7 @@ const profileJob = profile.querySelector('.profile__job');
 
 
 // Выбор всех popup'ов
-const popups = document.querySelectorAll('.popup')
+const popups = document.querySelectorAll('.popup');
 
 
 // Переменные popup'a редактирования профиля
@@ -44,6 +44,29 @@ const formObject = {
   inactiveEnterType: 'button',
   activeEnterType: 'submit'
 }
+
+
+// Создание метода деактивации кнопки Submit
+Object.prototype.disabledSubmitButton = function () {
+  this.querySelector(formObject.submitButtonSelector).classList.add(formObject.inactiveButtonClass);
+};
+
+
+// Создание метода активации кнопки Submit
+Object.prototype.enabledSubmitButton = function () {
+  this.querySelector(formObject.submitButtonSelector).classList.remove(formObject.inactiveButtonClass);
+};
+
+
+// Создание метода очистки ошибок формы
+Object.prototype.clearError = function () {
+  inputList = this.querySelectorAll(formObject.inputSelector);
+  inputList.forEach((inputElement) => {
+    inputElement.classList.remove(formObject.inputErrorClass);
+    inputElement.nextElementSibling.classList.remove(formObject.errorClass);
+    inputElement.nextElementSibling.textContent = '';
+  });
+};
 
 
 // Закрытие popup'ов по нажатию Esc
@@ -129,28 +152,43 @@ initialCards.reverse().forEach((elem) => {
 editButton.addEventListener('click', () => {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+  popupEdit.clearError();
+  popupEdit.enabledSubmitButton();
   openPopup(popupEdit);
-  enableValidation(popupEdit, formObject);
 });
 popupEdit.addEventListener('submit', editFormSubmit);
 
 
 // Назначение обрботчиков событий кнопкам формы добавления карточки
 addButton.addEventListener('click', () => {
-  openPopup(popupAdd)
-  enableValidation(popupAdd, formObject);
+  if (titleInput.value === '' || pictureInput.value === '') {
+    popupAdd.clearError();
+    popupAdd.disabledSubmitButton();
+  }
+  openPopup(popupAdd);
 });
 popupAdd.addEventListener('submit', addFormSubmit);
 
 
-// Назначение обработчиков событий крестикам и overlay'ям
+// Назначение обработчиков событий крестикам
 popups.forEach((popup) => {
   popup.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('popup_opened')) {
-      closePopup(popup)
-    }
     if (evt.target.classList.contains('popup__close-button')) {
       closePopup(popup);
     }
   })
 })
+
+
+// Назначение обработчиков событий overlay'ям
+popups.forEach((popup) => {
+  popup.addEventListener('mousedown', (evt) => {
+    if (evt.target.classList.contains('popup_opened')) {
+      closePopup(popup);
+    }
+  })
+})
+
+
+// Запуск валидации
+enableValidation(formObject);
