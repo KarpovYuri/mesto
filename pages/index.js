@@ -41,14 +41,14 @@ const formObject = {
   inactiveButtonClass: 'popup__submit-button_inactive',
   inputErrorClass: 'popup__field_type_error',
   errorClass: 'popup__input-error_active',
-  inactiveEnterType: 'button',
-  activeEnterType: 'submit'
 }
 
 
 // Создание метода деактивации кнопки Submit
 Object.prototype.disabledSubmitButton = function () {
-  this.querySelector(formObject.submitButtonSelector).classList.add(formObject.inactiveButtonClass);
+  const submitButton = this.querySelector(formObject.submitButtonSelector)
+  submitButton.classList.add(formObject.inactiveButtonClass);
+  submitButton.disabled = true;
 };
 
 
@@ -70,13 +70,10 @@ Object.prototype.clearError = function () {
 
 
 // Закрытие popup'ов по нажатию Esc
-function escapePress(evt) {
+function closeByEsc(evt) {
   if (evt.key === 'Escape') {
-    popups.forEach((popup) => {
-      if (popup.classList.contains('popup_opened')) {
-        closePopup(popup);
-      }
-    })
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
   }
 }
 
@@ -84,7 +81,7 @@ function escapePress(evt) {
 function openPopup(popup) {
   popup.classList.add('popup_opened');
   // Назначаем обработчик при открытии
-  document.addEventListener('keydown', escapePress);
+  document.addEventListener('keydown', closeByEsc);
 }
 
 
@@ -92,7 +89,7 @@ function openPopup(popup) {
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   // Удаляем обработчик при закрытии
-  document.removeEventListener('keydown', escapePress);
+  document.removeEventListener('keydown', closeByEsc);
 }
 
 
