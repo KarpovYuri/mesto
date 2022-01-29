@@ -35,13 +35,13 @@ function hasInvalidInput(inputList) {
 
 
 // Переключение активности кнопки отправки формы и клавиши Enter
-function toggleButtonState(inputList, buttonElement, inactiveButtonClass, inactiveEnterType, activeEnterType) {
+function toggleButtonState(inputList, buttonElement, inactiveButtonClass) {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(inactiveButtonClass);
-    buttonElement.type = inactiveEnterType;
+    buttonElement.disabled = true;
   } else {
     buttonElement.classList.remove(inactiveButtonClass);
-    buttonElement.type = activeEnterType;
+    buttonElement.disabled = false;
   }
 };
 
@@ -53,7 +53,7 @@ function setEventListeners(formElement, obj) {
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement, obj.inputErrorClass, obj.errorClass);
-      toggleButtonState(inputList, buttonElement, obj.inactiveButtonClass, obj.inactiveEnterType, obj.activeEnterType);
+      toggleButtonState(inputList, buttonElement, obj.inactiveButtonClass);
     });
   });
 };
