@@ -41,14 +41,6 @@ const formClasses = {
 };
 
 
-// Создание метода деактивации кнопки Submit
-Object.prototype.disabledSubmitButton = function () {
-  const submitButton = this.querySelector(formClasses.submitButtonSelector);
-  submitButton.classList.add(formClasses.inactiveButtonClass);
-  submitButton.disabled = true;
-};
-
-
 // Создание метода активации кнопки Submit
 Object.prototype.enabledSubmitButton = function () {
   this.querySelector(formClasses.submitButtonSelector).classList
@@ -99,12 +91,15 @@ function editFormSubmit() {
 }
 
 
+// Создание экземпляра карточки
+function cardInstance(name, link) {
+  const cardInstance = new Card({ name, link }, '#card-template', openPopup);
+  return cardInstance.createCard();
+}
+
 // Добавление пользовательской карточки
 function addFormSubmit(evt) {
-  const cardInstance = new Card(
-    { name: titleInput.value, link: pictureInput.value },
-    '#card-template', openPopup);
-  const card = cardInstance.createCard();
+  const card = cardInstance(titleInput.value, pictureInput.value);
   addCard(card);
   closePopup(popupAdd);
   evt.target.reset();
@@ -119,8 +114,7 @@ function addCard(card) {
 
 // Вывод начальных карточек
 initialCards.reverse().forEach((elem) => {
-  const cardInstance = new Card(elem, '#card-template', openPopup);
-  const card = cardInstance.createCard();
+  const card = cardInstance(elem.name, elem.link);
   addCard(card);
 });
 
@@ -130,7 +124,7 @@ editButton.addEventListener('click', () => {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   popupEdit.clearError();
-  popupEdit.enabledSubmitButton();
+  editFormValidator.toggleButtonState();
   openPopup(popupEdit);
 });
 popupEdit.addEventListener('submit', editFormSubmit);
@@ -140,7 +134,7 @@ popupEdit.addEventListener('submit', editFormSubmit);
 addButton.addEventListener('click', () => {
   if (titleInput.value === '' || pictureInput.value === '') {
     popupAdd.clearError();
-    popupAdd.disabledSubmitButton();
+    addFormValidator.toggleButtonState();
   }
   openPopup(popupAdd);
 });

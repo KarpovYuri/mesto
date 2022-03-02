@@ -1,3 +1,5 @@
+import { popupImage, popupPicture, popupSignature } from "../js/constants.js";
+
 // Класс карточки
 export class Card {
   constructor(data, cardSelector, openPopup) {
@@ -32,7 +34,8 @@ export class Card {
   _setEventListenerTrash() {
     this._cardElement.querySelector('.card__trash')
       .addEventListener('click', (evt) => {
-        evt.target.parentElement.remove();
+        this._cardElement.remove();
+        this._cardElement = '';
       });
   }
 
@@ -41,10 +44,9 @@ export class Card {
   _setEventListenerPicture() {
     this._cardElement.querySelector('.card__picture')
       .addEventListener('click', (evt) => {
-        document.querySelector('.popup__image').src = evt.target.src;
-        document.querySelector('.popup__image').alt =
-          document.querySelector('.popup__signature').textContent = evt.target.alt;
-        this._openPopup(document.querySelector('#popup-image'));
+        popupPicture.src = evt.target.src;
+        popupPicture.alt = popupSignature.textContent = evt.target.alt;
+        this._openPopup(popupImage);
       });
   }
 
