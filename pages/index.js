@@ -1,6 +1,8 @@
-// Переменные данных карточки
+import { Card } from "../js/Card.js";
+import { initialCards } from "../js/initialCards.js";
+
+// Контейнер карточек
 const cardsContainer = document.querySelector('.cards');
-const cardTemplate = document.querySelector('#card-template').content;
 
 
 // Переменные данных профиля
@@ -27,12 +29,6 @@ const titleInput = popupAdd.querySelector('#titleInput');
 const pictureInput = popupAdd.querySelector('#pictureInput');
 
 
-// Переменные popup'a изображения
-const popupImage = document.querySelector('#popup-image');
-const imageTeg = popupImage.querySelector('.popup__image');
-const signatureTeg = popupImage.querySelector('.popup__signature');
-
-
 // Объект классов необходимый для запуса валидации
 const formObject = {
   formSelector: '.popup__form',
@@ -41,12 +37,12 @@ const formObject = {
   inactiveButtonClass: 'popup__submit-button_inactive',
   inputErrorClass: 'popup__field_type_error',
   errorClass: 'popup__input-error_active',
-}
+};
 
 
 // Создание метода деактивации кнопки Submit
 Object.prototype.disabledSubmitButton = function () {
-  const submitButton = this.querySelector(formObject.submitButtonSelector)
+  const submitButton = this.querySelector(formObject.submitButtonSelector);
   submitButton.classList.add(formObject.inactiveButtonClass);
   submitButton.disabled = true;
 };
@@ -60,7 +56,7 @@ Object.prototype.enabledSubmitButton = function () {
 
 // Создание метода очистки ошибок формы
 Object.prototype.clearError = function () {
-  inputList = this.querySelectorAll(formObject.inputSelector);
+  const inputList = this.querySelectorAll(formObject.inputSelector);
   inputList.forEach((inputElement) => {
     inputElement.classList.remove(formObject.inputErrorClass);
     inputElement.nextElementSibling.classList.remove(formObject.errorClass);
@@ -103,32 +99,13 @@ function editFormSubmit() {
 
 // Добавление пользовательской карточки
 function addFormSubmit(evt) {
-  const card = createCard(titleInput.value, pictureInput.value);
+  const cardInstance = new Card(
+    { name: titleInput.value, link: pictureInput.value },
+    '#card-template', openPopup);
+  const card = cardInstance.createCard();
   addCard(card);
   closePopup(popupAdd);
   evt.target.reset();
-}
-
-
-// Создание карточки
-function createCard(name, link) {
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  cardElement.querySelector('.card__picture').src = link;
-  cardElement.querySelector('.card__picture').alt = name;
-  cardElement.querySelector('.card__title').textContent = name;
-  cardElement.querySelector('.card__like').addEventListener('click', (evt) => {
-    evt.target.classList.toggle('card__like_active');
-  });
-  cardElement.querySelector('.card__trash').addEventListener('click', (evt) => {
-    evt.target.parentElement.remove();
-  });
-  cardElement.querySelector('.card__picture').addEventListener('click', (evt) => {
-    imageTeg.src = evt.target.src;
-    imageTeg.alt = evt.target.alt;
-    signatureTeg.textContent = evt.target.alt;
-    openPopup(popupImage);
-  });
-  return cardElement;
 }
 
 
@@ -140,7 +117,8 @@ function addCard(card) {
 
 // Вывод начальных карточек
 initialCards.reverse().forEach((elem) => {
-  const card = createCard(elem.name, elem.link);
+  const cardInstance = new Card(elem, '#card-template', openPopup);
+  const card = cardInstance.createCard();
   addCard(card);
 });
 
@@ -173,8 +151,8 @@ popups.forEach((popup) => {
     if (evt.target.classList.contains('popup__close-button')) {
       closePopup(popup);
     }
-  })
-})
+  });
+});
 
 
 // Назначение обработчиков событий overlay'ям
@@ -183,8 +161,8 @@ popups.forEach((popup) => {
     if (evt.target.classList.contains('popup_opened')) {
       closePopup(popup);
     }
-  })
-})
+  });
+});
 
 
 // Запуск валидации

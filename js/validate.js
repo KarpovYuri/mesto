@@ -4,7 +4,7 @@ function showInputError(formElement, inputElement, errorMessage, inputErrorClass
   inputElement.classList.add(inputErrorClass);
   errorElement.textContent = errorMessage;
   errorElement.classList.add(errorClass);
-};
+}
 
 
 // Функция скрытия ошибки
@@ -13,7 +13,7 @@ function hideInputError(formElement, inputElement, inputErrorClass, errorClass) 
   inputElement.classList.remove(inputErrorClass);
   errorElement.classList.remove(errorClass);
   errorElement.textContent = '';
-};
+}
 
 
 // Вызов функций показа/скрытия ошибок
@@ -23,15 +23,15 @@ function checkInputValidity(formElement, inputElement, inputErrorClass, errorCla
   } else {
     hideInputError(formElement, inputElement, inputErrorClass, errorClass);
   }
-};
+}
 
 
 // Проверка на валидность
 function hasInvalidInput(inputList) {
   return inputList.some((inputElement) => {
     return !inputElement.validity.valid;
-  })
-};
+  });
+}
 
 
 // Переключение активности кнопки отправки формы и клавиши Enter
@@ -43,7 +43,7 @@ function toggleButtonState(inputList, buttonElement, inactiveButtonClass) {
     buttonElement.classList.remove(inactiveButtonClass);
     buttonElement.disabled = false;
   }
-};
+}
 
 
 // Установка обработчиков событий
@@ -56,7 +56,7 @@ function setEventListeners(formElement, obj) {
       toggleButtonState(inputList, buttonElement, obj.inactiveButtonClass);
     });
   });
-};
+}
 
 
 // Запуск валидации
@@ -68,4 +68,4 @@ function enableValidation(obj) {
     });
     setEventListeners(formElement, obj);
   });
-};
+}
