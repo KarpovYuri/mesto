@@ -47,7 +47,7 @@ export class FormValidator {
 
 
   // Переключение активности кнопки отправки формы и клавиши Enter
-  _toggleButtonState() {
+  toggleButtonState() {
     if (this._hasInvalidInput(this._inputList)) {
       this._buttonElement.classList.add(this._inactiveButtonClass);
       this._buttonElement.disabled = true;
@@ -63,7 +63,7 @@ export class FormValidator {
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState();
+        this.toggleButtonState();
       });
     });
   }
