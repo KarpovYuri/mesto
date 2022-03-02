@@ -1,4 +1,5 @@
 import { Card } from "../js/Card.js";
+import { FormValidator } from "../js/FormValidator.js";
 import { initialCards } from "../js/initialCards.js";
 
 // Контейнер карточек
@@ -30,7 +31,7 @@ const pictureInput = popupAdd.querySelector('#pictureInput');
 
 
 // Объект классов необходимый для запуса валидации
-const formObject = {
+const formClasses = {
   formSelector: '.popup__form',
   inputSelector: '.popup__field',
   submitButtonSelector: '.popup__submit-button',
@@ -42,24 +43,25 @@ const formObject = {
 
 // Создание метода деактивации кнопки Submit
 Object.prototype.disabledSubmitButton = function () {
-  const submitButton = this.querySelector(formObject.submitButtonSelector);
-  submitButton.classList.add(formObject.inactiveButtonClass);
+  const submitButton = this.querySelector(formClasses.submitButtonSelector);
+  submitButton.classList.add(formClasses.inactiveButtonClass);
   submitButton.disabled = true;
 };
 
 
 // Создание метода активации кнопки Submit
 Object.prototype.enabledSubmitButton = function () {
-  this.querySelector(formObject.submitButtonSelector).classList.remove(formObject.inactiveButtonClass);
+  this.querySelector(formClasses.submitButtonSelector).classList
+    .remove(formClasses.inactiveButtonClass);
 };
 
 
 // Создание метода очистки ошибок формы
 Object.prototype.clearError = function () {
-  const inputList = this.querySelectorAll(formObject.inputSelector);
+  const inputList = this.querySelectorAll(formClasses.inputSelector);
   inputList.forEach((inputElement) => {
-    inputElement.classList.remove(formObject.inputErrorClass);
-    inputElement.nextElementSibling.classList.remove(formObject.errorClass);
+    inputElement.classList.remove(formClasses.inputErrorClass);
+    inputElement.nextElementSibling.classList.remove(formClasses.errorClass);
     inputElement.nextElementSibling.textContent = '';
   });
 };
@@ -165,5 +167,11 @@ popups.forEach((popup) => {
 });
 
 
+// Создание классов валидации
+const editFormValidator = new FormValidator(formClasses, popupEdit);
+const addFormValidator = new FormValidator(formClasses, popupAdd);
+
+
 // Запуск валидации
-enableValidation(formObject);
+editFormValidator.enableValidation();
+addFormValidator.enableValidation();
