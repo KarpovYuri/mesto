@@ -41,24 +41,6 @@ const formClasses = {
 };
 
 
-// Создание метода активации кнопки Submit
-Object.prototype.enabledSubmitButton = function () {
-  this.querySelector(formClasses.submitButtonSelector).classList
-    .remove(formClasses.inactiveButtonClass);
-};
-
-
-// Создание метода очистки ошибок формы
-Object.prototype.clearError = function () {
-  const inputList = this.querySelectorAll(formClasses.inputSelector);
-  inputList.forEach((inputElement) => {
-    inputElement.classList.remove(formClasses.inputErrorClass);
-    inputElement.nextElementSibling.classList.remove(formClasses.errorClass);
-    inputElement.nextElementSibling.textContent = '';
-  });
-};
-
-
 // Закрытие popup'ов по нажатию Esc
 function closeByEsc(evt) {
   if (evt.key === 'Escape') {
@@ -123,7 +105,7 @@ initialCards.reverse().forEach((elem) => {
 editButton.addEventListener('click', () => {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-  popupEdit.clearError();
+  editFormValidator.resetFormError();
   editFormValidator.toggleButtonState();
   openPopup(popupEdit);
 });
@@ -133,7 +115,7 @@ popupEdit.addEventListener('submit', editFormSubmit);
 // Назначение обрботчиков событий кнопкам формы добавления карточки
 addButton.addEventListener('click', () => {
   if (titleInput.value === '' || pictureInput.value === '') {
-    popupAdd.clearError();
+    addFormValidator.resetFormError();
     addFormValidator.toggleButtonState();
   }
   openPopup(popupAdd);

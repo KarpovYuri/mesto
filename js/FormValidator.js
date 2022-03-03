@@ -69,6 +69,15 @@ export class FormValidator {
   }
 
 
+  // Очистка формы от ошибок
+  resetFormError() {
+    this._inputList.forEach((inputElement) => {
+      this._inputElement = inputElement;
+      this._errorElement = this._form.querySelector(`.${inputElement.id}-error`);
+      this._hideInputError();
+    });
+  }
+
   // Запуск валидации
   enableValidation() {
     this._form.addEventListener('submit', function (evt) {
