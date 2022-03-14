@@ -48,7 +48,7 @@ export default class FormValidator {
 
 
   // Переключение активности кнопки отправки формы и клавиши Enter
-  _toggleButtonState() {
+  toggleButtonState() {
     if (this._hasInvalidInput(this._inputList)) {
       this._buttonElement.classList.add(this._inactiveButtonClass);
       this._buttonElement.disabled = true;
@@ -64,11 +64,20 @@ export default class FormValidator {
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState();
+        this.toggleButtonState();
       });
     });
   }
 
+
+  // Очистка формы от ошибок
+  resetFormError() {
+    this._inputList.forEach((inputElement) => {
+      this._inputElement = inputElement;
+      this._errorElement = this._form.querySelector(`.${inputElement.id}-error`);
+      this._hideInputError();
+    });
+  }
 
   // Запуск валидации
   enableValidation() {
