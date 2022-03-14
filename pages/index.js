@@ -1,9 +1,10 @@
-import { Card } from "../js/Card.js";
-import { FormValidator } from "../js/FormValidator.js";
-import { initialCards } from "../js/initialCards.js";
-
-// Контейнер карточек
-const cardsContainer = document.querySelector('.cards');
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import {
+  initialCards,
+  cardConteinerSelector
+} from '../utils/constants.js';
 
 
 // Переменные данных профиля
@@ -101,28 +102,34 @@ function editFormSubmit() {
 
 // Добавление пользовательской карточки
 function addFormSubmit(evt) {
-  const cardInstance = new Card(
-    { name: titleInput.value, link: pictureInput.value },
-    '#card-template', openPopup);
-  const card = cardInstance.createCard();
-  addCard(card);
+  let items = [
+    {
+      name: titleInput.value,
+      link: pictureInput.value
+    }
+  ];
+  const CardList = new Section({
+    items: items, renderer: (elem) => {
+      const cardInstance = new Card(elem, '#card-template', openPopup);
+      const card = cardInstance.createCard();
+      CardList.setItem(card);
+    }
+  }, cardConteinerSelector);
+  CardList.renderItems();// Вывод карточки на страницу
   closePopup(popupAdd);
   evt.target.reset();
 }
 
 
-// Вывод карточки на страницу
-function addCard(card) {
-  cardsContainer.prepend(card);
-}
-
-
-// Вывод начальных карточек
-initialCards.reverse().forEach((elem) => {
-  const cardInstance = new Card(elem, '#card-template', openPopup);
-  const card = cardInstance.createCard();
-  addCard(card);
-});
+// Добавление начальных карточек
+const CardList = new Section({
+  items: initialCards.reverse(), renderer: (elem) => {
+    const cardInstance = new Card(elem, '#card-template', openPopup);
+    const card = cardInstance.createCard();
+    CardList.setItem(card);
+  }
+}, cardConteinerSelector);
+CardList.renderItems(); // Вывод карточек на страницу
 
 
 // Назначение обрботчиков событий кнопкам формы профиля

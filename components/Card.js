@@ -1,5 +1,5 @@
 // Класс карточки
-export class Card {
+export default class Card {
   constructor(data, cardSelector, openPopup) {
     this._data = data; // данные карточки
     this._cardSelector = cardSelector; // id шаблона карточки
