@@ -1,10 +1,17 @@
+// Импорт классов
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import Popup from "../components/Popup.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+
+
+// Импорт переменных
 import {
   initialCards,
   cardConteinerSelector,
+  popupEdit,
+  popupAdd,
   popupImage,
   formClasses
 } from '../utils/constants.js';
@@ -19,13 +26,11 @@ const profileJob = profile.querySelector('.profile__job');
 
 
 // Переменные popup'a редактирования профиля
-const popupEdit = document.querySelector('#popup-edit');
 const nameInput = popupEdit.querySelector('#nameInput');
 const jobInput = popupEdit.querySelector('#jobInput');
 
 
 // Переменные popup'a добавления карточки
-const popupAdd = document.querySelector('#popup-add');
 const titleInput = popupAdd.querySelector('#titleInput');
 const pictureInput = popupAdd.querySelector('#pictureInput');
 
@@ -33,7 +38,7 @@ const pictureInput = popupAdd.querySelector('#pictureInput');
 // Создание классов popup'ов
 const EditPopup = new Popup(popupEdit);
 const AddPopup = new Popup(popupAdd);
-const ImagePopup = new Popup(popupImage);
+const ImagePopup = new PopupWithImage(popupImage);
 
 
 // Установка обработчиков событий крестикам и оверлеям popap'ов
@@ -52,7 +57,7 @@ function editFormSubmit() {
 
 // Функция создание экземпляра карточки
 function cardInstance(elem) {
-  const cardInstance = new Card(elem, '#card-template', () => { ImagePopup.openPopup(); });
+  const cardInstance = new Card(elem, '#card-template', (evt) => ImagePopup.openPopup(evt));
   return cardInstance.createCard();
 }
 

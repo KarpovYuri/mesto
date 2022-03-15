@@ -1,5 +1,3 @@
-import { popupImage, popupPicture, popupSignature } from "../utils/constants.js";
-
 // Класс карточки
 export default class Card {
   constructor(data, cardSelector, openPopup) {
@@ -43,11 +41,7 @@ export default class Card {
   // Установка обработчика событий изображению
   _setEventListenerPicture() {
     this._cardElement.querySelector('.card__picture')
-      .addEventListener('click', (evt) => {
-        popupPicture.src = evt.target.src;
-        popupPicture.alt = popupSignature.textContent = evt.target.alt;
-        this._openPopup(popupImage);
-      });
+      .addEventListener('click', (evt) => this._openPopup(evt));
   }
 
 

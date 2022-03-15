@@ -42,15 +42,15 @@ export const formClasses = {
 const cardConteinerSelector = '.cards';
 
 
-// Селекторы для popupImage
+// Селекторы popup'ов
+const popupEdit = document.querySelector('#popup-edit');
+const popupAdd = document.querySelector('#popup-add');
 const popupImage = document.querySelector('#popup-image');
-const popupPicture = popupImage.querySelector('.popup__image');
-const popupSignature = document.querySelector('.popup__signature');
 
 
 export {
   cardConteinerSelector,
-  popupImage,
-  popupPicture,
-  popupSignature,
+  popupEdit,
+  popupAdd,
+  popupImage
 };
