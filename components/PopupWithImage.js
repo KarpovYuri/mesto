@@ -12,7 +12,7 @@ export default class PopupWithImage extends Popup {
   // Перезаписываем родительский метод
   openPopup(evt) {
     super.openPopup();
-    this._picture.src = evt.target.src;
-    this._picture.alt = this._signature.textContent = evt.target.alt;
+    this._picture.src = evt.target.src; // добавляем в popup' изображение
+    this._picture.alt = this._signature.textContent = evt.target.alt; // добавляем в popup' подпись
   }
 }
