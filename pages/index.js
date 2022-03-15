@@ -2,8 +2,8 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
-import Popup from "../components/Popup.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
 
 
 // Импорт переменных
@@ -36,8 +36,21 @@ const pictureInput = popupAdd.querySelector('#pictureInput');
 
 
 // Создание классов popup'ов
-const EditPopup = new Popup(popupEdit);
-const AddPopup = new Popup(popupAdd);
+const EditPopup = new PopupWithForm(popupEdit, (formItems) => {
+  profileName.textContent = formItems.name;
+  profileJob.textContent = formItems.job;
+  EditPopup.closePopup();
+});
+const AddPopup = new PopupWithForm(popupAdd, (formItems) => {
+  const CardAdd = new Section({
+    items: [formItems], renderer: (elem) => {
+      const card = cardInstance(elem);
+      CardAdd.setItem(card);
+    }
+  }, cardConteinerSelector);
+  CardAdd.renderItems();// Вывод карточки на страницу
+  AddPopup.closePopup();
+});
 const ImagePopup = new PopupWithImage(popupImage);
 
 
@@ -47,37 +60,10 @@ AddPopup.setEventListeners();
 ImagePopup.setEventListeners();
 
 
-// Добавление данных профиля на страницу
-function editFormSubmit() {
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
-  EditPopup.closePopup();
-}
-
-
 // Функция создание экземпляра карточки
 function cardInstance(elem) {
   const cardInstance = new Card(elem, '#card-template', (evt) => ImagePopup.openPopup(evt));
   return cardInstance.createCard();
-}
-
-// Добавление пользовательской карточки
-function addFormSubmit(evt) {
-  let cardItem = [
-    {
-      name: titleInput.value,
-      link: pictureInput.value
-    }
-  ];
-  const CardAdd = new Section({
-    items: cardItem, renderer: (elem) => {
-      const card = cardInstance(elem);
-      CardAdd.setItem(card);
-    }
-  }, cardConteinerSelector);
-  CardAdd.renderItems();// Вывод карточки на страницу
-  AddPopup.closePopup();
-  evt.target.reset();
 }
 
 
@@ -99,7 +85,7 @@ editButton.addEventListener('click', () => {
   EditFormValidator.toggleButtonState();
   EditPopup.openPopup();
 });
-popupEdit.addEventListener('submit', editFormSubmit);
+EditPopup.setEventListeners();
 
 
 // Назначение обрботчиков событий кнопкам формы добавления карточки
@@ -110,7 +96,7 @@ addButton.addEventListener('click', () => {
   }
   AddPopup.openPopup();
 });
-popupAdd.addEventListener('submit', addFormSubmit);
+AddPopup.setEventListeners();
 
 
 // Создание классов валидации
