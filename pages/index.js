@@ -4,6 +4,7 @@ import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
 
 
 // Импорт переменных
@@ -35,10 +36,13 @@ const titleInput = popupAdd.querySelector('#titleInput');
 const pictureInput = popupAdd.querySelector('#pictureInput');
 
 
+// Создание класса данных пользователя
+const UserInfoInstance = new UserInfo(profileName, profileJob);
+
+
 // Создание классов popup'ов
 const EditPopup = new PopupWithForm(popupEdit, (formItems) => {
-  profileName.textContent = formItems.name;
-  profileJob.textContent = formItems.job;
+  UserInfoInstance.setUserInfo(formItems);
   EditPopup.closePopup();
 });
 const AddPopup = new PopupWithForm(popupAdd, (formItems) => {
@@ -79,8 +83,9 @@ CardsList.renderItems(); // Вывод карточек на страницу
 
 // Назначение обрботчиков событий кнопкам формы профиля
 editButton.addEventListener('click', () => {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
+  const userData = UserInfoInstance.getUserInfo();
+  nameInput.value = userData.name;
+  jobInput.value = userData.job;
   EditFormValidator.resetFormError();
   EditFormValidator.toggleButtonState();
   EditPopup.openPopup();
