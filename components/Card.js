@@ -1,5 +1,3 @@
-import { popupImage, popupPicture, popupSignature } from "../js/constants.js";
-
 // Класс карточки
 export default class Card {
   constructor({ data, cardSelector, handleCardClick }) {
