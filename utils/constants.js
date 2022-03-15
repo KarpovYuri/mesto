@@ -48,9 +48,20 @@ const popupAdd = document.querySelector('#popup-add');
 const popupImage = document.querySelector('#popup-image');
 
 
+// Переменные данных профиля
+const editButton = document.querySelector('.profile__edit-button');
+const addButton = document.querySelector('.profile__add-button');
+const profileName = document.querySelector('.profile__name');
+const profileJob = document.querySelector('.profile__job');
+
+
 export {
   cardConteinerSelector,
   popupEdit,
   popupAdd,
-  popupImage
+  popupImage,
+  editButton,
+  addButton,
+  profileName,
+  profileJob
 };

@@ -16,7 +16,7 @@ export default class Section {
 
 
   // Метод добавленя карточек в контейнер
-  setItem(element) {
-    this._container.prepend(element);
+  setItem(elem) {
+    this._container.prepend(elem);
   }
 }

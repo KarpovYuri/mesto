@@ -14,47 +14,46 @@ import {
   popupEdit,
   popupAdd,
   popupImage,
+  editButton,
+  addButton,
+  profileName,
+  profileJob,
   formClasses
 } from '../utils/constants.js';
 
 
-// Переменные данных профиля
-const profile = document.querySelector('.profile');
-const editButton = profile.querySelector('.profile__edit-button');
-const addButton = profile.querySelector('.profile__add-button');
-const profileName = profile.querySelector('.profile__name');
-const profileJob = profile.querySelector('.profile__job');
-
-
-// Переменные popup'a редактирования профиля
-const nameInput = popupEdit.querySelector('#nameInput');
-const jobInput = popupEdit.querySelector('#jobInput');
-
-
-// Переменные popup'a добавления карточки
-const titleInput = popupAdd.querySelector('#titleInput');
-const pictureInput = popupAdd.querySelector('#pictureInput');
-
-
-// Создание класса данных пользователя
+// Создание экземпляра класса данных пользователя
 const UserInfoInstance = new UserInfo(profileName, profileJob);
 
 
-// Создание классов popup'ов
-const EditPopup = new PopupWithForm(popupEdit, (formItems) => {
-  UserInfoInstance.setUserInfo(formItems);
-  EditPopup.closePopup();
+// Создание эксземпляра класса popup'а данных пользоввателя
+const EditPopup = new PopupWithForm({
+  popupSelector: popupEdit,
+  submitCallback: (formItems) => {
+    UserInfoInstance.setUserInfo(formItems);
+    EditPopup.closePopup();
+  }
 });
-const AddPopup = new PopupWithForm(popupAdd, (formItems) => {
-  const CardAdd = new Section({
-    items: [formItems], renderer: (elem) => {
-      const card = cardInstance(elem);
-      CardAdd.setItem(card);
-    }
-  }, cardConteinerSelector);
-  CardAdd.renderItems();// Вывод карточки на страницу
-  AddPopup.closePopup();
+
+
+// Создание эксземпляра класса popup'а добавления пользовательской карточки
+const AddPopup = new PopupWithForm({
+  popupSelector: popupAdd,
+  submitCallback: (formItems) => {
+    const CardAdd = new Section({
+      items: [formItems],
+      renderer: (elem) => {
+        const card = cardInstance(elem);
+        CardAdd.setItem(card);
+      }
+    }, cardConteinerSelector);
+    CardAdd.renderItems();// Вывод карточки на страницу
+    AddPopup.closePopup();
+  }
 });
+
+
+// Создание эксземпляра класса popup'а изображения
 const ImagePopup = new PopupWithImage(popupImage);
 
 
@@ -66,7 +65,11 @@ ImagePopup.setEventListeners();
 
 // Функция создание экземпляра карточки
 function cardInstance(elem) {
-  const cardInstance = new Card(elem, '#card-template', (evt) => ImagePopup.openPopup(evt));
+  const cardInstance = new Card({
+    data: elem,
+    cardSelector: '#card-template',
+    handleCardClick: (e) => ImagePopup.openPopup(e)
+  });
   return cardInstance.createCard();
 }
 
@@ -84,8 +87,10 @@ CardsList.renderItems(); // Вывод карточек на страницу
 // Назначение обрботчиков событий кнопкам формы профиля
 editButton.addEventListener('click', () => {
   const userData = UserInfoInstance.getUserInfo();
-  nameInput.value = userData.name;
-  jobInput.value = userData.job;
+  EditPopup._inputs.forEach((item) => {
+    if (item.id === 'nameInput') { item.value = userData.name; }
+    if (item.id === 'jobInput') { item.value = userData.job; }
+  });
   EditFormValidator.resetFormError();
   EditFormValidator.toggleButtonState();
   EditPopup.openPopup();
@@ -95,10 +100,8 @@ EditPopup.setEventListeners();
 
 // Назначение обрботчиков событий кнопкам формы добавления карточки
 addButton.addEventListener('click', () => {
-  if (titleInput.value === '' || pictureInput.value === '') {
-    AddFormValidator.resetFormError();
-    AddFormValidator.toggleButtonState();
-  }
+  AddFormValidator.resetFormError();
+  AddFormValidator.toggleButtonState();
   AddPopup.openPopup();
 });
 AddPopup.setEventListeners();
