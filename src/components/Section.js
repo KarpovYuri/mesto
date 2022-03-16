@@ -7,16 +7,23 @@ export default class Section {
   }
 
 
-  // Метод вывода карточек на страницу
+  // Отрисовка всех карточек
   renderItems() {
-    this._renderedItems.forEach((item) => {
-      this._renderer(item);
+    this._renderedItems.reverse().forEach((item) => {
+      this.render(item);
     });
   }
 
 
+  // Отрисовка отдельного элемента
+  render(item) {
+    this.addItem(item);
+  }
+
+
   // Метод добавленя карточек в контейнер
-  setItem(elem) {
-    this._container.prepend(elem);
+  addItem(item) {
+    const card = this._renderer(item);
+    this._container.prepend(card);
   }
 }

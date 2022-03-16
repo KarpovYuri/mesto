@@ -39,31 +39,8 @@ const editPopup = new PopupWithForm({
 });
 
 
-// Создание эксземпляра класса popup'а добавления пользовательской карточки
-const addPopup = new PopupWithForm({
-  popupSelector: '#popup-add',
-  submitCallback: (formItems) => {
-    const cardAdd = new Section({
-      items: [formItems],
-      renderer: (elem) => {
-        const card = createCard(elem);
-        cardAdd.setItem(card);
-      }
-    }, cardConteinerSelector);
-    cardAdd.renderItems();// Вывод карточки на страницу
-    addPopup.closePopup();
-  }
-});
-
-
 // Создание эксземпляра класса popup'а изображения
 const imagePopup = new PopupWithImage('#popup-image');
-
-
-// Установка обработчиков событий крестикам и оверлеям popap'ов
-editPopup.setEventListeners();
-addPopup.setEventListeners();
-imagePopup.setEventListeners();
 
 
 // Функция создание экземпляра карточки
@@ -73,18 +50,35 @@ function createCard(elem) {
     cardSelector: '#card-template',
     handleCardClick: (e) => imagePopup.openPopup(e)
   });
-  return cardInstance.createCard();
+  return cardInstance;
 }
 
 
 // Добавление начальных карточек
 const cardsList = new Section({
-  items: initialCards.reverse(), renderer: (elem) => {
+  items: initialCards,
+  renderer: (elem) => {
     const card = createCard(elem);
-    cardsList.setItem(card);
+    return card.createCard();
   }
 }, cardConteinerSelector);
-cardsList.renderItems(); // Вывод карточек на страницу
+cardsList.renderItems();
+
+
+// Добавление пользовательской карточки
+const addPopup = new PopupWithForm({
+  popupSelector: '#popup-add',
+  submitCallback: (formItems) => {
+    cardsList.render(formItems);
+    addPopup.closePopup();
+  }
+});
+
+
+// Установка обработчиков событий крестикам и оверлеям popap'ов
+editPopup.setEventListeners();
+addPopup.setEventListeners();
+imagePopup.setEventListeners();
 
 
 // Назначение обрботчиков событий кнопкам формы профиля
@@ -95,7 +89,6 @@ editButton.addEventListener('click', () => {
   formValidators.profileForm.resetValidation();
   editPopup.openPopup();
 });
-editPopup.setEventListeners();
 
 
 // Назначение обрботчиков событий кнопкам формы добавления карточки
@@ -103,7 +96,6 @@ addButton.addEventListener('click', () => {
   formValidators.addForm.resetValidation();
   addPopup.openPopup();
 });
-addPopup.setEventListeners();
 
 
 // Функция запуска валидации
