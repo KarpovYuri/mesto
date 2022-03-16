@@ -20,28 +20,25 @@ export default class Card {
   }
 
 
-  // Установка обработчика событий кнопке 'Like'
-  _setEventListenerLike() {
+  // Установка обработчиков событий карточки
+  _setEventListeners() {
+
+    // Установка обработчика событий кнопке 'Like'
     this._cardElement.querySelector('.card__like')
       .addEventListener('click', (evt) => {
         evt.target.classList.toggle('card__like_active');
       });
-  }
 
-
-  // Установка обработчика событий кнопке удаления карточки
-  _setEventListenerTrash() {
+    // Установка обработчика событий кнопке удаления карточки
     this._cardElement.querySelector('.card__trash')
       .addEventListener('click', () => {
         this._cardElement.remove();
         this._cardElement = '';
       });
-  }
 
-
-  // Установка обработчика событий изображению
-  _setEventListenerPicture() {
+    // Установка обработчика событий изображению
     this._cardPicture.addEventListener('click', this._handleCardClick);
+
   }
 
 
@@ -50,9 +47,7 @@ export default class Card {
     this._cardPicture.src = this._data.link;
     this._cardPicture.alt = this._data.name;
     this._cardElement.querySelector('.card__title').textContent = this._data.name;
-    this._setEventListenerLike();
-    this._setEventListenerTrash();
-    this._setEventListenerPicture();
+    this._setEventListeners();
     return this._cardElement;
   }
 }
