@@ -5,8 +5,8 @@ import Popup from './Popup.js';
 export default class PopupWithImage extends Popup {
   constructor(popupSelector) {
     super(popupSelector);
-    this._picture = this._popupSelector.querySelector('.popup__image');
-    this._signature = this._popupSelector.querySelector('.popup__signature');
+    this._picture = this._popup.querySelector('.popup__image');
+    this._signature = this._popup.querySelector('.popup__signature');
   }
 
   // Перезаписываем родительский метод
