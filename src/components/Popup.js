@@ -1,9 +1,9 @@
 // Класс открытия popup'ов
 export default class Popup {
   constructor(popupSelector) {
-    this._popupSelector = popupSelector;
+    this._popup = document.querySelector(popupSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
-    this._popupCloseButton = this._popupSelector.querySelector('.popup__close-button');
+    this._popupCloseButton = this._popup.querySelector('.popup__close-button');
   }
 
 
@@ -17,7 +17,7 @@ export default class Popup {
 
   // Метод открытия popup'а
   openPopup() {
-    this._popupSelector.classList.add('popup_opened');
+    this._popup.classList.add('popup_opened');
     // Назначаем обработчик при открытии
     document.addEventListener('keydown', this._handleEscClose);
   }
@@ -25,7 +25,7 @@ export default class Popup {
 
   // Метод закрытия popup'а
   closePopup() {
-    this._popupSelector.classList.remove('popup_opened');
+    this._popup.classList.remove('popup_opened');
     // Удаляем обработчик при закрытии
     document.removeEventListener('keydown', this._handleEscClose);
   }
@@ -36,7 +36,7 @@ export default class Popup {
     this._popupCloseButton.addEventListener('click', () => {
       this.closePopup();
     });
-    this._popupSelector.addEventListener('mousedown', (evt) => {
+    this._popup.addEventListener('mousedown', (evt) => {
       if (evt.target.classList.contains('popup_opened')) {
         this.closePopup();
       }

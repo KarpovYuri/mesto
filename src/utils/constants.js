@@ -45,7 +45,6 @@ const cardConteinerSelector = '.cards';
 // Селекторы popup'ов
 const popupEdit = document.querySelector('#popup-edit');
 const popupAdd = document.querySelector('#popup-add');
-const popupImage = document.querySelector('#popup-image');
 
 
 // Переменные данных профиля
@@ -59,7 +58,6 @@ export {
   cardConteinerSelector,
   popupEdit,
   popupAdd,
-  popupImage,
   editButton,
   addButton,
   profileName,

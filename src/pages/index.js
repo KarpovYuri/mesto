@@ -16,7 +16,6 @@ import {
   cardConteinerSelector,
   popupEdit,
   popupAdd,
-  popupImage,
   editButton,
   addButton,
   profileName,
@@ -26,95 +25,95 @@ import {
 
 
 // Создание экземпляра класса данных пользователя
-const UserInfoInstance = new UserInfo(profileName, profileJob);
+const userInfoInstance = new UserInfo(profileName, profileJob);
 
 
 // Создание эксземпляра класса popup'а данных пользоввателя
-const EditPopup = new PopupWithForm({
-  popupSelector: popupEdit,
+const editPopup = new PopupWithForm({
+  popupSelector: '#popup-edit',
   submitCallback: (formItems) => {
-    UserInfoInstance.setUserInfo(formItems);
-    EditPopup.closePopup();
+    userInfoInstance.setUserInfo(formItems);
+    editPopup.closePopup();
   }
 });
 
 
 // Создание эксземпляра класса popup'а добавления пользовательской карточки
-const AddPopup = new PopupWithForm({
-  popupSelector: popupAdd,
+const addPopup = new PopupWithForm({
+  popupSelector: '#popup-add',
   submitCallback: (formItems) => {
-    const CardAdd = new Section({
+    const cardAdd = new Section({
       items: [formItems],
       renderer: (elem) => {
-        const card = cardInstance(elem);
-        CardAdd.setItem(card);
+        const card = createCard(elem);
+        cardAdd.setItem(card);
       }
     }, cardConteinerSelector);
-    CardAdd.renderItems();// Вывод карточки на страницу
-    AddPopup.closePopup();
+    cardAdd.renderItems();// Вывод карточки на страницу
+    addPopup.closePopup();
   }
 });
 
 
 // Создание эксземпляра класса popup'а изображения
-const ImagePopup = new PopupWithImage(popupImage);
+const imagePopup = new PopupWithImage('#popup-image');
 
 
 // Установка обработчиков событий крестикам и оверлеям popap'ов
-EditPopup.setEventListeners();
-AddPopup.setEventListeners();
-ImagePopup.setEventListeners();
+editPopup.setEventListeners();
+addPopup.setEventListeners();
+imagePopup.setEventListeners();
 
 
 // Функция создание экземпляра карточки
-function cardInstance(elem) {
+function createCard(elem) {
   const cardInstance = new Card({
     data: elem,
     cardSelector: '#card-template',
-    handleCardClick: (e) => ImagePopup.openPopup(e)
+    handleCardClick: (e) => imagePopup.openPopup(e)
   });
   return cardInstance.createCard();
 }
 
 
 // Добавление начальных карточек
-const CardsList = new Section({
+const cardsList = new Section({
   items: initialCards.reverse(), renderer: (elem) => {
-    const card = cardInstance(elem);
-    CardsList.setItem(card);
+    const card = createCard(elem);
+    cardsList.setItem(card);
   }
 }, cardConteinerSelector);
-CardsList.renderItems(); // Вывод карточек на страницу
+cardsList.renderItems(); // Вывод карточек на страницу
 
 
 // Назначение обрботчиков событий кнопкам формы профиля
 editButton.addEventListener('click', () => {
-  const userData = UserInfoInstance.getUserInfo();
-  EditPopup._inputs.forEach((item) => {
+  const userData = userInfoInstance.getUserInfo();
+  editPopup._inputs.forEach((item) => {
     if (item.id === 'nameInput') { item.value = userData.name; }
     if (item.id === 'jobInput') { item.value = userData.job; }
   });
-  EditFormValidator.resetFormError();
-  EditFormValidator.toggleButtonState();
-  EditPopup.openPopup();
+  editFormValidator.resetFormError();
+  editFormValidator.toggleButtonState();
+  editPopup.openPopup();
 });
-EditPopup.setEventListeners();
+editPopup.setEventListeners();
 
 
 // Назначение обрботчиков событий кнопкам формы добавления карточки
 addButton.addEventListener('click', () => {
-  AddFormValidator.resetFormError();
-  AddFormValidator.toggleButtonState();
-  AddPopup.openPopup();
+  addFormValidator.resetFormError();
+  addFormValidator.toggleButtonState();
+  addPopup.openPopup();
 });
-AddPopup.setEventListeners();
+addPopup.setEventListeners();
 
 
 // Создание классов валидации
-const EditFormValidator = new FormValidator(formClasses, popupEdit);
-const AddFormValidator = new FormValidator(formClasses, popupAdd);
+const editFormValidator = new FormValidator(formClasses, popupEdit);
+const addFormValidator = new FormValidator(formClasses, popupAdd);
 
 
 // Запуск валидации
-EditFormValidator.enableValidation();
-AddFormValidator.enableValidation();
+editFormValidator.enableValidation();
+addFormValidator.enableValidation();
