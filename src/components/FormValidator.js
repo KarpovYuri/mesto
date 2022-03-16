@@ -1,7 +1,7 @@
 // Класс валидации форм
 export default class FormValidator {
   constructor(formClasses, popup) {
-    this._form = popup.querySelector(formClasses.formSelector);
+    this._form = popup;
     this._inputSelector = formClasses.inputSelector;
     this._buttonElement = this._form.querySelector(formClasses.submitButtonSelector);
     this._inactiveButtonClass = formClasses.inactiveButtonClass;
@@ -48,7 +48,7 @@ export default class FormValidator {
 
 
   // Переключение активности кнопки отправки формы и клавиши Enter
-  toggleButtonState() {
+  _toggleButtonState() {
     if (this._hasInvalidInput(this._inputList)) {
       this._buttonElement.classList.add(this._inactiveButtonClass);
       this._buttonElement.disabled = true;
@@ -64,20 +64,22 @@ export default class FormValidator {
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        this.toggleButtonState();
+        this._toggleButtonState();
       });
     });
   }
 
 
-  // Очистка формы от ошибок
-  resetFormError() {
+  // Очистка формы от ошибок и управление кнопкой
+  resetValidation() {
+    this._toggleButtonState();
     this._inputList.forEach((inputElement) => {
       this._inputElement = inputElement;
       this._errorElement = this._form.querySelector(`.${inputElement.id}-error`);
       this._hideInputError();
     });
   }
+
 
   // Запуск валидации
   enableValidation() {

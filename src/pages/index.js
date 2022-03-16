@@ -14,13 +14,14 @@ import UserInfo from "../components/UserInfo.js";
 import {
   initialCards,
   cardConteinerSelector,
-  popupEdit,
-  popupAdd,
+  nameInput,
+  jobInput,
   editButton,
   addButton,
   profileName,
   profileJob,
-  formClasses
+  formClasses,
+  formValidators
 } from '../utils/constants.js';
 
 
@@ -89,12 +90,9 @@ cardsList.renderItems(); // Вывод карточек на страницу
 // Назначение обрботчиков событий кнопкам формы профиля
 editButton.addEventListener('click', () => {
   const userData = userInfoInstance.getUserInfo();
-  editPopup._inputs.forEach((item) => {
-    if (item.id === 'nameInput') { item.value = userData.name; }
-    if (item.id === 'jobInput') { item.value = userData.job; }
-  });
-  editFormValidator.resetFormError();
-  editFormValidator.toggleButtonState();
+  nameInput.value = userData.name;
+  jobInput.value = userData.job;
+  formValidators.profileForm.resetValidation();
   editPopup.openPopup();
 });
 editPopup.setEventListeners();
@@ -102,18 +100,23 @@ editPopup.setEventListeners();
 
 // Назначение обрботчиков событий кнопкам формы добавления карточки
 addButton.addEventListener('click', () => {
-  addFormValidator.resetFormError();
-  addFormValidator.toggleButtonState();
+  formValidators.addForm.resetValidation();
   addPopup.openPopup();
 });
 addPopup.setEventListeners();
 
 
-// Создание классов валидации
-const editFormValidator = new FormValidator(formClasses, popupEdit);
-const addFormValidator = new FormValidator(formClasses, popupAdd);
+// Функция запуска валидации
+function enableValidation(formClasses) {
+  const formList = Array.from(document.querySelectorAll(formClasses.formSelector));
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(formClasses, formElement);
+    const formName = formElement.getAttribute('name');
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+}
 
 
-// Запуск валидации
-editFormValidator.enableValidation();
-addFormValidator.enableValidation();
+// Включение валидации
+enableValidation(formClasses);

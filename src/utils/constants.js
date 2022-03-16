@@ -42,24 +42,30 @@ export const formClasses = {
 const cardConteinerSelector = '.cards';
 
 
-// Селекторы popup'ов
-const popupEdit = document.querySelector('#popup-edit');
-const popupAdd = document.querySelector('#popup-add');
-
-
-// Переменные данных профиля
-const editButton = document.querySelector('.profile__edit-button');
-const addButton = document.querySelector('.profile__add-button');
+// Переменные popup'а редактирования профиля
+const nameInput = document.querySelector('#nameInput');
+const jobInput = document.querySelector('#jobInput');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 
 
+// Кнопки открытия popup'ов
+const editButton = document.querySelector('.profile__edit-button');
+const addButton = document.querySelector('.profile__add-button');
+
+
+// Объект экземпляров класса FormValidator
+const formValidators = {};
+
+
+// Экспорт переменных
 export {
   cardConteinerSelector,
-  popupEdit,
-  popupAdd,
+  nameInput,
+  jobInput,
   editButton,
   addButton,
   profileName,
-  profileJob
+  profileJob,
+  formValidators
 };
