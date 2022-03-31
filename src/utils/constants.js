@@ -44,9 +44,10 @@ const cardConteinerSelector = '.cards';
 
 // Переменные popup'а редактирования профиля
 const nameInput = document.querySelector('#nameInput');
-const jobInput = document.querySelector('#jobInput');
+const aboutInput = document.querySelector('#aboutInput');
 const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__job');
+const profileAbout = document.querySelector('.profile__about');
+const profileAvatar = document.querySelector('.profile__avatar');
 
 
 // Кнопки открытия popup'ов
@@ -62,10 +63,11 @@ const formValidators = {};
 export {
   cardConteinerSelector,
   nameInput,
-  jobInput,
+  aboutInput,
   editButton,
   addButton,
   profileName,
-  profileJob,
+  profileAbout,
+  profileAvatar,
   formValidators
 };

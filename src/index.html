@@ -20,13 +20,13 @@
     <main>
 
       <section class="profile">
-        <img src="<%=require('./images/avatar.jpg')%>" alt="Жак-Ив Кусто" class="profile__avatar">
+        <img src="" alt="Аватар" class="profile__avatar">
         <div class="profile__info">
-          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <h1 class="profile__name"></h1>
           <button type="button" aria-label="Кнопка редактирования профиля"
             class="profile__edit-button fade-opacity"></button>
         </div>
-        <p class="profile__job">Исследователь океана</p>
+        <p class="profile__about"></p>
         <button type="button" aria-label="Кнопка добавления карточки" class="profile__add-button fade-opacity"></button>
       </section>
 
@@ -43,9 +43,9 @@
           <input type="text" placeholder="Имя" class="popup__field" id="nameInput" name="name" required minlength="2"
             maxlength="40">
           <span class="popup__input-error nameInput-error"></span>
-          <input type="text" placeholder="О себе" class="popup__field" id="jobInput" name="job" required minlength="2"
-            maxlength="200">
-          <span class="popup__input-error jobInput-error"></span>
+          <input type="text" placeholder="О себе" class="popup__field" id="aboutInput" name="about" required
+            minlength="2" maxlength="200">
+          <span class="popup__input-error aboutInput-error"></span>
           <button type="submit" aria-label="Кнопка сохранения формы" class="popup__submit-button">Сохранить</button>
         </form>
         <button type="button" aria-label="Кнопка закрытия окна" class="popup__close-button fade-opacity"></button>
