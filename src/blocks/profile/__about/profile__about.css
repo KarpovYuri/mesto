@@ -1,4 +1,4 @@
-.profile__job {
+.profile__about {
   margin: 16px 0 0;
   font-size: 18px;
   line-height: 22px;
@@ -12,7 +12,7 @@
 }
 
 @media (max-width: 1080px) {
-  .profile__job {
+  .profile__about {
     font-size: 14px;
     line-height: 17px;
     margin: 14px auto 0;

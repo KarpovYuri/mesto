@@ -14,7 +14,6 @@ import Api from "../components/Api.js";
 
 // Импорт переменных
 import {
-  initialCards,
   cardConteinerSelector,
   nameInput,
   aboutInput,
@@ -67,15 +66,13 @@ function createCard(elem) {
 }
 
 
-// Добавление начальных карточек
+// Создание экземпляра класса секции карточек
 const cardsList = new Section({
-  items: initialCards,
   renderer: (elem) => {
     const card = createCard(elem);
     return card.createCard();
   }
 }, cardConteinerSelector);
-cardsList.renderItems();
 
 
 // Добавление пользовательской карточки
@@ -128,6 +125,14 @@ api.getUserInfo()
   .then((result) => {
     userInfoInstance.setUserInfo(result);
     userInfoInstance.setUserAvatar(result);
+  })
+  .catch(error => console.log(error));
+
+
+// Отрисовка начальных карточек
+api.getInitialCards()
+  .then((result) => {
+    cardsList.renderItems(result);
   })
   .catch(error => console.log(error));
 
