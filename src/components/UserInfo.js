@@ -1,20 +1,25 @@
 // Класс информации о пользователе
 export default class UserInfo {
-  constructor(profileName, profilJob) {
+  constructor(profileName, profilAbout, profileAvatar) {
     this._name = profileName;
-    this._job = profilJob;
+    this._about = profilAbout;
+    this._profileAvatar = profileAvatar;
   }
 
   getUserInfo() {
     const userData = {
       name: this._name.textContent,
-      job: this._job.textContent,
+      about: this._about.textContent,
     };
     return userData;
   }
 
   setUserInfo(userData) {
     this._name.textContent = userData.name;
-    this._job.textContent = userData.job;
+    this._about.textContent = userData.about;
+  }
+
+  setUserAvatar(data) {
+    this._profileAvatar.src = data.avatar;
   }
 }

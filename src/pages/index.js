@@ -17,11 +17,12 @@ import {
   initialCards,
   cardConteinerSelector,
   nameInput,
-  jobInput,
+  aboutInput,
   editButton,
   addButton,
   profileName,
-  profileJob,
+  profileAbout,
+  profileAvatar,
   formClasses,
   formValidators
 } from '../utils/constants.js';
@@ -38,7 +39,7 @@ const api = new Api({
 
 
 // Создание экземпляра класса данных пользователя
-const userInfoInstance = new UserInfo(profileName, profileJob);
+const userInfoInstance = new UserInfo(profileName, profileAbout, profileAvatar);
 
 
 // Создание эксземпляра класса popup'а данных пользоввателя
@@ -97,7 +98,7 @@ imagePopup.setEventListeners();
 editButton.addEventListener('click', () => {
   const userData = userInfoInstance.getUserInfo();
   nameInput.value = userData.name;
-  jobInput.value = userData.job;
+  aboutInput.value = userData.about;
   formValidators.profileForm.resetValidation();
   editPopup.openPopup();
 });
@@ -120,6 +121,15 @@ function enableValidation(formClasses) {
     validator.enableValidation();
   });
 }
+
+
+// Начальная отрисовка данных профиля
+api.getUserInfo()
+  .then((result) => {
+    userInfoInstance.setUserInfo(result);
+    userInfoInstance.setUserAvatar(result);
+  })
+  .catch(error => console.log(error));
 
 
 // Включение валидации

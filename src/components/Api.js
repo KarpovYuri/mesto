@@ -12,30 +12,27 @@ export default class Api {
       return result.json();
     } else {
       // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${result.status} - ${result.statusText}`);
+      return Promise.reject(`Ошибка: ${result.status}`);
     }
-  }
-
-
-  // Обработка ошибок, попадающих в 'catch'
-  _handlingError(error) {
-    console.log(error); // пока выводим ошибку в консоль
-  }
-
-
-  // Запрос начальных карточек
-  getInitialCards() {
-    return fetch(`${this._baseUrl}cards`, this._headers)
-      .then(res => this._handlingResponse(res))
-      .catch(err => this._handlingError(err));
   }
 
 
   // Запрос данных профиля
   getUserInfo() {
-    return fetch(`${this._baseUrl}users/me`, this._headers)
-      .then(res => this._handlingResponse(res))
-      .catch(err => this._handlingError(err));
+    return fetch(`${this._baseUrl}users/me`, {
+      headers: this._headers
+    })
+      .then(res => this._handlingResponse(res));
+  }
+
+
+
+  // Запрос начальных карточек
+  getInitialCards() {
+    return fetch(`${this._baseUrl}cards`, {
+      headers: this._headers
+    })
+      .then(res => this._handlingResponse(res));
   }
 
 
