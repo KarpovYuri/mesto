@@ -30,10 +30,7 @@ import {
 // Создание экземпляра класса общения с сервером
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-39/',
-  headers: {
-    authorization: 'e7a7c3fb-6194-4371-9a2c-b0a475e73e1c',
-    'Content-Type': 'application/json'
-  }
+  token: 'e7a7c3fb-6194-4371-9a2c-b0a475e73e1c'
 });
 
 
@@ -44,9 +41,13 @@ const userInfoInstance = new UserInfo(profileName, profileAbout, profileAvatar);
 // Создание эксземпляра класса popup'а данных пользоввателя
 const editPopup = new PopupWithForm({
   popupSelector: '#popup-edit',
-  submitCallback: (formItems) => {
-    userInfoInstance.setUserInfo(formItems);
-    editPopup.closePopup();
+  submitCallback: (formData) => {
+    api.addUserInfo(formData)
+      .then(result => {
+        userInfoInstance.setUserInfo(result);
+        editPopup.closePopup();
+      })
+      .catch(error => console.log(error));
   }
 });
 

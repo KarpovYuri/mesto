@@ -2,7 +2,7 @@
 export default class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
-    this._headers = options.headers;
+    this._token = options.token;
   }
 
 
@@ -20,7 +20,9 @@ export default class Api {
   // Запрос данных профиля
   getUserInfo() {
     return fetch(`${this._baseUrl}users/me`, {
-      headers: this._headers
+      headers: {
+        authorization: this._token
+      }
     })
       .then(res => this._handlingResponse(res));
   }
@@ -30,23 +32,28 @@ export default class Api {
   // Запрос начальных карточек
   getInitialCards() {
     return fetch(`${this._baseUrl}cards`, {
-      headers: this._headers
+      headers: {
+        authorization: this._token
+      }
     })
       .then(res => this._handlingResponse(res));
   }
 
 
   // Отправка данных профиля
-  setUserInfo(data) {
-    return fetch(`${this._baseUrl}users/me`, this._headers, {
-      method: "PATCH",
+  addUserInfo(data) {
+    return fetch(`${this._baseUrl}users/me`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         name: data.name,
-        about: data.job
+        about: data.about
       })
     })
-      .then(res => this._handlingResponse(res))
-      .catch(err => this._handlingError(err));
+      .then(res => this._handlingResponse(res));
   }
 
 
