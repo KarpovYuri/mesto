@@ -1,6 +1,7 @@
 // Импорт главного файла стилей
 import './index.css';
 
+
 // Импорт классов
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
@@ -8,6 +9,7 @@ import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
+import Api from "../components/Api.js";
 
 
 // Импорт переменных
@@ -23,6 +25,16 @@ import {
   formClasses,
   formValidators
 } from '../utils/constants.js';
+
+
+// Создание экземпляра класса общения с сервером
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-39/',
+  headers: {
+    authorization: 'e7a7c3fb-6194-4371-9a2c-b0a475e73e1c',
+    'Content-Type': 'application/json'
+  }
+});
 
 
 // Создание экземпляра класса данных пользователя
