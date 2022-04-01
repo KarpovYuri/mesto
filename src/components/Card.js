@@ -42,14 +42,14 @@ export default class Card {
     this._cardElement.querySelector('.card__like-btn')
       .addEventListener('click', () => {
         if (this._likeBtn.classList.contains('card__like-btn_active')) {
-          this._handleRemoveLike(this._data._id)
+          this._handleRemoveLike(this)
             .then((result) => {
               this._likeQty.textContent = result.likes.length;
               this._likeBtn.classList.remove('card__like-btn_active');
             })
             .catch((error) => console.log(error));
         } else {
-          this._handleSetLike(this._data._id)
+          this._handleSetLike(this)
             .then((result) => {
               this._likeQty.textContent = result.likes.length;
               this._likeBtn.classList.add('card__like-btn_active');
@@ -62,10 +62,7 @@ export default class Card {
     if (this._data.owner._id === this._userId) {
       this._trashBtn.classList.add('card__trash_active');
       this._trashBtn.addEventListener('click', () => {
-        this._handleTrashClick({
-          cardElement: this._cardElement,
-          cardId: this._data._id
-        });
+        this._handleTrashClick(this);
       });
     }
 

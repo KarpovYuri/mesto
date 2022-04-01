@@ -14,8 +14,6 @@ const cardConteinerSelector = '.cards';
 
 
 // Переменные popup'а редактирования профиля
-const nameInput = document.querySelector('#nameInput');
-const aboutInput = document.querySelector('#aboutInput');
 const profileName = document.querySelector('.profile__name');
 const profileAbout = document.querySelector('.profile__about');
 const profileAvatar = document.querySelector('.profile__avatar');
@@ -34,8 +32,6 @@ const formValidators = {};
 // Экспорт переменных
 export {
   cardConteinerSelector,
-  nameInput,
-  aboutInput,
   editButton,
   addButton,
   avatarButton,

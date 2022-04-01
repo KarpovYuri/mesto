@@ -30,9 +30,22 @@ export default class PopupWithForm extends Popup {
   }
 
 
+  setInputValues(data) {
+    this._inputs.forEach((input) => {
+      input.value = data[input.name];
+    });
+  }
+
+
   // Метод Submit формы
   _submitForm() {
     this._submitCallback(this._getInputValues(), this._submitButton);
+  }
+
+
+  // Смена надписи кнопки сабмита при сохранении
+  renderLoading(buttonText = 'Сохранение...') {
+    this._submitButton.textContent = buttonText;
   }
 
 
@@ -41,4 +54,5 @@ export default class PopupWithForm extends Popup {
     super.setEventListeners();
     this._form.addEventListener('submit', this._submitForm);
   }
+
 }
