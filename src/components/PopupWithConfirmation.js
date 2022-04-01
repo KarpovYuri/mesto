@@ -2,7 +2,7 @@ import Popup from './Popup.js';
 
 
 // Класс popup'а формы
-export default class PopupWithConfirm extends Popup {
+export default class PopupWithConfirmation extends Popup {
   constructor({ popupSelector, submitCallback }) {
     super(popupSelector);
     this._submitCallback = submitCallback;

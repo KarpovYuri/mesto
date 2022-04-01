@@ -9,6 +9,7 @@ export default class PopupWithForm extends Popup {
     this._submitForm = this._submitForm.bind(this);
     this._form = this._popup.querySelector('.popup__form');
     this._inputs = Array.from(this._form.querySelectorAll('.popup__field'));
+    this._submitButton = this._form.querySelector(".popup__submit-button");
   }
 
 
@@ -31,7 +32,7 @@ export default class PopupWithForm extends Popup {
 
   // Метод Submit формы
   _submitForm() {
-    this._submitCallback(this._getInputValues());
+    this._submitCallback(this._getInputValues(), this._submitButton);
   }
 
 
