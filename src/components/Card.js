@@ -24,9 +24,9 @@ export default class Card {
   _setEventListeners() {
 
     // Установка обработчика событий кнопке 'Like'
-    this._cardElement.querySelector('.card__like')
+    this._cardElement.querySelector('.card__like-btn')
       .addEventListener('click', (evt) => {
-        evt.target.classList.toggle('card__like_active');
+        evt.target.classList.toggle('card__like-btn_active');
       });
 
     // Установка обработчика событий кнопке удаления карточки
