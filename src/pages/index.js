@@ -41,8 +41,8 @@ const userInfoInstance = new UserInfo(profileName, profileAbout, profileAvatar);
 // Создание эксземпляра класса popup'а данных пользоввателя
 const editPopup = new PopupWithForm({
   popupSelector: '#popup-edit',
-  submitCallback: (formData) => {
-    api.addUserInfo(formData)
+  submitCallback: (formItems) => {
+    api.addUserInfo(formItems)
       .then(result => {
         userInfoInstance.setUserInfo(result);
         editPopup.closePopup();
@@ -80,8 +80,13 @@ const cardsList = new Section({
 const addPopup = new PopupWithForm({
   popupSelector: '#popup-add',
   submitCallback: (formItems) => {
-    cardsList.render(formItems);
-    addPopup.closePopup();
+    api.addCard(formItems)
+      .then(result => {
+        cardsList.render(result);
+        addPopup.closePopup();
+      })
+      .catch(error => console.log(error));
+
   }
 });
 
