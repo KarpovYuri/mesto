@@ -1,9 +1,8 @@
-.card__like {
+.card__like-btn {
   cursor: pointer;
   width: 22px;
   height: 19px;
   padding: 0;
-  margin: 4px 5px 0 0;
   border: none;
   background-color: transparent;
   background-image: url(../../../images/heart_disabled.svg);
@@ -12,6 +11,6 @@
   transition: opacity 0.25s;
 }
 
-.card__like:hover {
+.card__like-btn:hover {
   opacity: .5;
 }
