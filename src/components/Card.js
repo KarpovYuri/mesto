@@ -1,11 +1,15 @@
 // Класс карточки
 export default class Card {
-  constructor({ data, cardSelector, handleCardClick }) {
+  constructor({ data, userId, cardSelector, handleImageClick, handleTrashClick }) {
     this._data = data; // данные карточки
+    this._userId = userId; // id пользователя
     this._cardSelector = cardSelector; // id шаблона карточки
     this._cardElement = this._getTemplate(); // разметка карточки
-    this._handleCardClick = handleCardClick; // функция открытия popup'а изображения
+    this._cardId = this._data._id; // id карточки
+    this._handleImageClick = handleImageClick; // функция открытия popup'а изображения
+    this._handleTrashClick = handleTrashClick; // функция открытия popup'а изображения
     this._cardPicture = this._cardElement.querySelector('.card__picture'); // изображение карточки
+    this._trashBtn = this._cardElement.querySelector('.card__trash'); // кнопка удаления
   }
 
 
@@ -30,14 +34,18 @@ export default class Card {
       });
 
     // Установка обработчика событий кнопке удаления карточки
-    this._cardElement.querySelector('.card__trash')
-      .addEventListener('click', () => {
-        this._cardElement.remove();
-        this._cardElement = '';
+    if (this._data.owner._id === this._userId) {
+      this._trashBtn.classList.add('card__trash_active');
+      this._trashBtn.addEventListener('click', () => {
+        this._handleTrashClick({
+          cardElement: this._cardElement,
+          cardId: this._data._id
+        });
       });
+    }
 
     // Установка обработчика событий изображению
-    this._cardPicture.addEventListener('click', this._handleCardClick);
+    this._cardPicture.addEventListener('click', this._handleImageClick);
 
   }
 
