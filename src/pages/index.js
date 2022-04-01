@@ -96,6 +96,12 @@ function createCard(elem) {
     handleTrashClick: (data) => {
       deletePopup.data = data;
       deletePopup.openPopup();
+    },
+    handleSetLike: data => {
+      return api.setCardLike(data);
+    },
+    handleRemoveLike: data => {
+      return api.removeCardLike(data);
     }
   });
   return cardInstance;
