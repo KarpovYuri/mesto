@@ -16,8 +16,6 @@ import Api from "../components/Api.js";
 // Импорт переменных
 import {
   cardConteinerSelector,
-  nameInput,
-  aboutInput,
   editButton,
   addButton,
   avatarButton,
@@ -33,12 +31,6 @@ import {
 let userId;
 
 
-// Функция изменения текста кнопки на: «Сохранение...»
-function addSaving(btn) {
-  btn.textContent = "Сохранение...";
-}
-
-
 // Функция изменения текста кнопки на: «Сохранить»
 function removeSaving(btn) {
   btn.textContent = "Сохранить";
@@ -52,12 +44,12 @@ const api = new Api({
 });
 
 
-// Начальная отрисовка данных профиля
-api.getUserInfo()
-  .then((result) => {
-    userId = result._id;
-    userInfoInstance.setUserInfo(result);
-    userInfoInstance.setUserAvatar(result);
+// Начальная отрисовка данных профиля и карточек
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    userId = userData._id;
+    userInfoInstance.setUserInfo(userData);
+    cardsList.renderItems(cards);
   })
   .catch(error => console.log(error));
 
@@ -69,8 +61,8 @@ const userInfoInstance = new UserInfo(profileName, profileAbout, profileAvatar);
 // Создание эксземпляра класса popup'а данных пользоввателя
 const editPopup = new PopupWithForm({
   popupSelector: '#popup-edit',
-  submitCallback: (formItems, btn) => {
-    addSaving(btn);
+  submitCallback: (formItems) => {
+    editPopup.renderLoading();
     api.addUserInfo(formItems)
       .then(result => {
         userInfoInstance.setUserInfo(result);
@@ -78,7 +70,7 @@ const editPopup = new PopupWithForm({
       })
       .catch(error => console.log(error))
       .finally(() => {
-        removeSaving(btn);
+        editPopup.renderLoading('Сохранить');
       });
   }
 });
@@ -87,16 +79,16 @@ const editPopup = new PopupWithForm({
 // Создание эксземпляра класса popup'а обновления аватара
 const avatarPopup = new PopupWithForm({
   popupSelector: '#popup-avatar',
-  submitCallback: (formItems, btn) => {
-    addSaving(btn);
+  submitCallback: (formItems) => {
+    avatarPopup.renderLoading();
     api.updateAvatar(formItems)
       .then(result => {
-        userInfoInstance.setUserAvatar(result);
+        userInfoInstance.setUserInfo(result);
         avatarPopup.closePopup();
       })
       .catch(error => console.log(error))
       .finally(() => {
-        removeSaving(btn);
+        avatarPopup.renderLoading('Сохранить');
       });
   }
 });
@@ -110,10 +102,10 @@ const imagePopup = new PopupWithImage('#popup-image');
 const deletePopup = new PopupWithConfirmation({
   popupSelector: '#popup-delete',
   submitCallback: (data) => {
-    api.deleteCard(data.cardId)
+    api.deleteCard(data._data._id)
       .then(() => {
-        data.cardElement.remove();
-        data.cardElement = '';
+        data._cardElement.remove();
+        data._cardElement = '';
         deletePopup.closePopup();
       })
       .catch(error => console.log(error));
@@ -133,10 +125,10 @@ function createCard(elem) {
       deletePopup.openPopup();
     },
     handleSetLike: data => {
-      return api.setCardLike(data);
+      return api.setCardLike(data._data._id);
     },
     handleRemoveLike: data => {
-      return api.removeCardLike(data);
+      return api.removeCardLike(data._data._id);
     }
   });
   return cardInstance;
@@ -152,19 +144,11 @@ const cardsList = new Section({
 }, cardConteinerSelector);
 
 
-// Отрисовка начальных карточек
-api.getInitialCards()
-  .then((result) => {
-    cardsList.renderItems(result);
-  })
-  .catch(error => console.log(error));
-
-
 // Добавление пользовательской карточки
 const addPopup = new PopupWithForm({
   popupSelector: '#popup-add',
-  submitCallback: (formItems, btn) => {
-    addSaving(btn);
+  submitCallback: (formItems) => {
+    addPopup.renderLoading();
     api.addCard(formItems)
       .then(result => {
         cardsList.render(result);
@@ -172,7 +156,7 @@ const addPopup = new PopupWithForm({
       })
       .catch(error => console.log(error))
       .finally(() => {
-        removeSaving(btn);
+        addPopup.renderLoading('Создать');
       });
   }
 });
@@ -189,8 +173,7 @@ avatarPopup.setEventListeners();
 // Назначение обрботчиков событий кнопке формы профиля
 editButton.addEventListener('click', () => {
   const userData = userInfoInstance.getUserInfo();
-  nameInput.value = userData.name;
-  aboutInput.value = userData.about;
+  editPopup.setInputValues(userData);
   formValidators.profileForm.resetValidation();
   editPopup.openPopup();
 });
