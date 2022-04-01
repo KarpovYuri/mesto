@@ -8,7 +8,7 @@ import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
-import PopupWithConfirm from "../components/PopupWithConfirm.js";
+import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 
@@ -31,6 +31,18 @@ import {
 
 // Переменная для id пользователя
 let userId;
+
+
+// Функция изменения текста кнопки на: «Сохранение...»
+function addSaving(btn) {
+  btn.textContent = "Сохранение...";
+}
+
+
+// Функция изменения текста кнопки на: «Сохранить»
+function removeSaving(btn) {
+  btn.textContent = "Сохранить";
+}
 
 
 // Создание экземпляра класса общения с сервером
@@ -57,13 +69,17 @@ const userInfoInstance = new UserInfo(profileName, profileAbout, profileAvatar);
 // Создание эксземпляра класса popup'а данных пользоввателя
 const editPopup = new PopupWithForm({
   popupSelector: '#popup-edit',
-  submitCallback: (formItems) => {
+  submitCallback: (formItems, btn) => {
+    addSaving(btn);
     api.addUserInfo(formItems)
       .then(result => {
         userInfoInstance.setUserInfo(result);
         editPopup.closePopup();
       })
-      .catch(error => console.log(error));
+      .catch(error => console.log(error))
+      .finally(() => {
+        removeSaving(btn);
+      });
   }
 });
 
@@ -71,13 +87,17 @@ const editPopup = new PopupWithForm({
 // Создание эксземпляра класса popup'а обновления аватара
 const avatarPopup = new PopupWithForm({
   popupSelector: '#popup-avatar',
-  submitCallback: (formItems) => {
+  submitCallback: (formItems, btn) => {
+    addSaving(btn);
     api.updateAvatar(formItems)
       .then(result => {
         userInfoInstance.setUserAvatar(result);
         avatarPopup.closePopup();
       })
-      .catch(error => console.log(error));
+      .catch(error => console.log(error))
+      .finally(() => {
+        removeSaving(btn);
+      });
   }
 });
 
@@ -87,7 +107,7 @@ const imagePopup = new PopupWithImage('#popup-image');
 
 
 // Создание эксземпляра класса popup'а подтверждения удаления
-const deletePopup = new PopupWithConfirm({
+const deletePopup = new PopupWithConfirmation({
   popupSelector: '#popup-delete',
   submitCallback: (data) => {
     api.deleteCard(data.cardId)
@@ -143,14 +163,17 @@ api.getInitialCards()
 // Добавление пользовательской карточки
 const addPopup = new PopupWithForm({
   popupSelector: '#popup-add',
-  submitCallback: (formItems) => {
+  submitCallback: (formItems, btn) => {
+    addSaving(btn);
     api.addCard(formItems)
       .then(result => {
         cardsList.render(result);
         addPopup.closePopup();
       })
-      .catch(error => console.log(error));
-
+      .catch(error => console.log(error))
+      .finally(() => {
+        removeSaving(btn);
+      });
   }
 });
 
