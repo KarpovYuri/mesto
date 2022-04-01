@@ -59,57 +59,69 @@ export default class Api {
 
   // Отправка добавленной карточки
   addCard(data) {
-    return fetch(`${this._baseUrl}cards`, this._headers, {
+    return fetch(`${this._baseUrl}cards`, {
       method: "POST",
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         link: data.link,
         name: data.name
       })
     })
-      .then(res => this._handlingResponse(res))
-      .catch(err => this._handlingError(err));
+      .then(res => this._handlingResponse(res));
   }
 
 
   // Удаление карточки
   deleteCard(cardId) {
-    return fetch(`${this._baseUrl}cards/${cardId}`, this._headers, {
-      method: "DELETE"
+    return fetch(`${this._baseUrl}cards/${cardId}`, {
+      method: "DELETE",
+      headers: {
+        authorization: this._token
+      }
     })
-      .then(res => this._handlingResponse(res))
-      .catch(err => this._handlingError(err));
+      .then(res => this._handlingResponse(res));
   }
 
   // Постановка лайка карточке
   setCardLike(cardId) {
-    return fetch(`${this._baseUrl}cards/${cardId}/likes`, this._headers, {
-      method: "PUT"
+    return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
+      method: "PUT",
+      headers: {
+        authorization: this._token
+      }
     })
-      .then(res => this._handlingResponse(res))
-      .catch(err => this._handlingError(err));
+      .then(res => this._handlingResponse(res));
   }
 
 
   // Снятие лайка карточки
   removeCardLike(cardId) {
-    return fetch(`${this._baseUrl}cards/${cardId}/likes`, this._headers, {
-      method: "DELETE"
+    return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
+      method: "DELETE",
+      headers: {
+        authorization: this._token
+      }
     })
-      .then(res => this._handlingResponse(res))
-      .catch(err => this._handlingError(err));
+      .then(res => this._handlingResponse(res));
   }
 
 
   // Обновление аватара пользователя
   updateAvatar(data) {
-    return fetch(`${this._baseUrl}users/me/avatar`, this._headers, {
+    return fetch(`${this._baseUrl}users/me/avatar`, {
       method: "PATCH",
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         avatar: data.avatar
       })
     })
-      .then(res => this._handlingResponse(res))
-      .catch(err => this._handlingError(err));
+      .then(res => this._handlingResponse(res));
   }
 
 }
