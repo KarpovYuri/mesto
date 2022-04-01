@@ -20,6 +20,7 @@ import {
   aboutInput,
   editButton,
   addButton,
+  avatarButton,
   profileName,
   profileAbout,
   profileAvatar,
@@ -61,6 +62,20 @@ const editPopup = new PopupWithForm({
       .then(result => {
         userInfoInstance.setUserInfo(result);
         editPopup.closePopup();
+      })
+      .catch(error => console.log(error));
+  }
+});
+
+
+// Создание эксземпляра класса popup'а обновления аватара
+const avatarPopup = new PopupWithForm({
+  popupSelector: '#popup-avatar',
+  submitCallback: (formItems) => {
+    api.updateAvatar(formItems)
+      .then(result => {
+        userInfoInstance.setUserAvatar(result);
+        avatarPopup.closePopup();
       })
       .catch(error => console.log(error));
   }
@@ -145,6 +160,7 @@ editPopup.setEventListeners();
 addPopup.setEventListeners();
 imagePopup.setEventListeners();
 deletePopup.setEventListeners();
+avatarPopup.setEventListeners();
 
 
 // Назначение обрботчиков событий кнопке формы профиля
@@ -161,6 +177,13 @@ editButton.addEventListener('click', () => {
 addButton.addEventListener('click', () => {
   formValidators.addForm.resetValidation();
   addPopup.openPopup();
+});
+
+
+// Назначение обрботчиков событий кнопке формы обновления аватара
+avatarButton.addEventListener('click', () => {
+  formValidators.avatarForm.resetValidation();
+  avatarPopup.openPopup();
 });
 
 

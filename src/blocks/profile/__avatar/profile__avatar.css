@@ -1,10 +1,8 @@
 .profile__avatar {
-  width: 120px;
-  height: 120px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: center;
   border-radius: 50%;
-  grid-area: avatar;
 }
 
 @media (max-width: 1080px) {

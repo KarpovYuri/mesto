@@ -24,6 +24,7 @@ const profileAvatar = document.querySelector('.profile__avatar');
 // Кнопки открытия popup'ов
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
+const avatarButton = document.querySelector('.profile__avatar-button');
 
 
 // Объект экземпляров класса FormValidator
@@ -37,6 +38,7 @@ export {
   aboutInput,
   editButton,
   addButton,
+  avatarButton,
   profileName,
   profileAbout,
   profileAvatar,
