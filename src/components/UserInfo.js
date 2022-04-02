@@ -6,14 +6,18 @@ export default class UserInfo {
     this._profileAvatar = profileAvatar;
   }
 
+
+  // Получение данных пользователя
   getUserInfo() {
     const userData = {
       name: this._name.textContent,
-      about: this._about.textContent,
+      about: this._about.textContent
     };
     return userData;
   }
 
+
+  // Запись данных пользователя на страницу
   setUserInfo(userData) {
     this._name.textContent = userData.name;
     this._about.textContent = userData.about;

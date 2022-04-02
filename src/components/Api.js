@@ -28,7 +28,6 @@ export default class Api {
   }
 
 
-
   // Запрос начальных карточек
   getInitialCards() {
     return fetch(`${this._baseUrl}cards`, {

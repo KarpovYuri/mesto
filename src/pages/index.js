@@ -102,10 +102,9 @@ const imagePopup = new PopupWithImage('#popup-image');
 const deletePopup = new PopupWithConfirmation({
   popupSelector: '#popup-delete',
   submitCallback: (data) => {
-    api.deleteCard(data._data._id)
+    api.deleteCard(data.getId())
       .then(() => {
-        data._cardElement.remove();
-        data._cardElement = '';
+        data.deleteCard();
         deletePopup.closePopup();
       })
       .catch(error => console.log(error));
@@ -124,11 +123,10 @@ function createCard(elem) {
       deletePopup.data = data;
       deletePopup.openPopup();
     },
-    handleSetLike: data => {
-      return api.setCardLike(data._data._id);
-    },
-    handleRemoveLike: data => {
-      return api.removeCardLike(data._data._id);
+    handleLike: (data) => {
+      api.setCardLike(data.getId())
+        .then(result => data.updateLikes(result))
+        .catch(error => console.log(error));
     }
   });
   return cardInstance;
