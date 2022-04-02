@@ -6,8 +6,7 @@ export default class Card {
     cardSelector,
     handleImageClick,
     handleTrashClick,
-    handleSetLike,
-    handleRemoveLike
+    handleLike
   }) {
     this._data = data; // данные карточки
     this._userId = userId; // id пользователя
@@ -15,8 +14,7 @@ export default class Card {
     this._cardElement = this._getTemplate(); // разметка карточки
     this._handleImageClick = handleImageClick; // функция открытия popup'а изображения
     this._handleTrashClick = handleTrashClick; // функция открытия popup'а изображения
-    this._handleSetLike = handleSetLike; // функция постановки лайка
-    this._handleRemoveLike = handleRemoveLike; // функция удаления лайка
+    this._handleLike = handleLike; // функция лайка
     this._cardPicture = this._cardElement.querySelector('.card__picture'); // изображение карточки
     this._trashBtn = this._cardElement.querySelector('.card__trash'); // кнопка удаления
     this._likeBtn = this._cardElement.querySelector('.card__like-btn'); // Cчетчик лайков
@@ -35,27 +33,25 @@ export default class Card {
   }
 
 
+  // Получение ID карточки
+  getId() {
+    return this._data._id;
+  }
+
+  // Изменение состояния лайка
+  updateLikes(data) {
+    this._likeQty.textContent = data.likes.length;
+    this._likeBtn.classList.toggle('card__like-btn_active');
+  }
+
+
   // Установка обработчиков событий карточки
   _setEventListeners() {
 
     // Установка обработчика событий кнопке 'Like'
     this._cardElement.querySelector('.card__like-btn')
       .addEventListener('click', () => {
-        if (this._likeBtn.classList.contains('card__like-btn_active')) {
-          this._handleRemoveLike(this)
-            .then((result) => {
-              this._likeQty.textContent = result.likes.length;
-              this._likeBtn.classList.remove('card__like-btn_active');
-            })
-            .catch((error) => console.log(error));
-        } else {
-          this._handleSetLike(this)
-            .then((result) => {
-              this._likeQty.textContent = result.likes.length;
-              this._likeBtn.classList.add('card__like-btn_active');
-            })
-            .catch((error) => console.log(error));
-        }
+        this._handleLike(this);
       });
 
     // Установка обработчика событий кнопке удаления карточки
@@ -84,4 +80,11 @@ export default class Card {
     this._setEventListeners();
     return this._cardElement;
   }
+
+  // Удаление карточки
+  deleteCard() {
+    this._cardElement.remove();
+    this._cardElement = '';
+  }
+
 }
