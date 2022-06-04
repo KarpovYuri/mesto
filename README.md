@@ -28,4 +28,4 @@
 
 **Mesto Russia**
 
-* [ссылка на GitHub Pages](https://yurick78.github.io/mesto/index.html)
+* [ссылка на GitHub Pages](https://karpovyuri.github.io/mesto/index.html)
