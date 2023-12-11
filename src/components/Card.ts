@@ -107,7 +107,7 @@ export default class Card {
     this._likeQty.textContent = this._data.likes.length.toString();
     if (
       this._data.likes.some((item: { _id: number }) => {
-        item._id === this._userId;
+        return item._id === this._userId;
       })
     ) {
       this._likeBtn.classList.add("card__like-btn_active");
