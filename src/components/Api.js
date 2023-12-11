@@ -5,7 +5,6 @@ export default class Api {
     this._token = options.token;
   }
 
-
   // Обработка ответа сервера
   _handlingResponse(result) {
     if (result.ok) {
@@ -16,45 +15,38 @@ export default class Api {
     }
   }
 
-
   // Запрос данных профиля
   getUserInfo() {
     return fetch(`${this._baseUrl}users/me`, {
       headers: {
-        authorization: this._token
-      }
-    })
-      .then(res => this._handlingResponse(res));
+        authorization: this._token,
+      },
+    }).then((res) => this._handlingResponse(res));
   }
-
 
   // Запрос начальных карточек
   getInitialCards() {
     return fetch(`${this._baseUrl}cards`, {
       headers: {
-        authorization: this._token
-      }
-    })
-      .then(res => this._handlingResponse(res));
+        authorization: this._token,
+      },
+    }).then((res) => this._handlingResponse(res));
   }
-
 
   // Отправка данных профиля
   addUserInfo(data) {
     return fetch(`${this._baseUrl}users/me`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
         authorization: this._token,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name: data.name,
-        about: data.about
-      })
-    })
-      .then(res => this._handlingResponse(res));
+        about: data.about,
+      }),
+    }).then((res) => this._handlingResponse(res));
   }
-
 
   // Отправка добавленной карточки
   addCard(data) {
@@ -62,26 +54,23 @@ export default class Api {
       method: "POST",
       headers: {
         authorization: this._token,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         link: data.link,
-        name: data.name
-      })
-    })
-      .then(res => this._handlingResponse(res));
+        name: data.name,
+      }),
+    }).then((res) => this._handlingResponse(res));
   }
-
 
   // Удаление карточки
   deleteCard(cardId) {
     return fetch(`${this._baseUrl}cards/${cardId}`, {
       method: "DELETE",
       headers: {
-        authorization: this._token
-      }
-    })
-      .then(res => this._handlingResponse(res));
+        authorization: this._token,
+      },
+    }).then((res) => this._handlingResponse(res));
   }
 
   // Постановка лайка карточке
@@ -89,24 +78,20 @@ export default class Api {
     return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
       method: "PUT",
       headers: {
-        authorization: this._token
-      }
-    })
-      .then(res => this._handlingResponse(res));
+        authorization: this._token,
+      },
+    }).then((res) => this._handlingResponse(res));
   }
-
 
   // Снятие лайка карточки
   removeCardLike(cardId) {
     return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
       method: "DELETE",
       headers: {
-        authorization: this._token
-      }
-    })
-      .then(res => this._handlingResponse(res));
+        authorization: this._token,
+      },
+    }).then((res) => this._handlingResponse(res));
   }
-
 
   // Обновление аватара пользователя
   updateAvatar(data) {
@@ -114,13 +99,11 @@ export default class Api {
       method: "PATCH",
       headers: {
         authorization: this._token,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        avatar: data.avatar
-      })
-    })
-      .then(res => this._handlingResponse(res));
+        avatar: data.avatar,
+      }),
+    }).then((res) => this._handlingResponse(res));
   }
-
 }
