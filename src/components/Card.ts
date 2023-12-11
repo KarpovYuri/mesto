@@ -1,5 +1,25 @@
+import { ICard } from "../interfaces";
+
 // Класс карточки
 export default class Card {
+  private _data: ICard;
+  private _userId: number;
+  private _cardSelector: string;
+  private _cardElement: HTMLDivElement;
+  private _handleImageClick: (
+    e:
+      | {
+          target: { src: string; alt: string };
+        }
+      | MouseEvent
+  ) => void;
+  private _handleTrashClick: (card: this) => void;
+  private _handleLike: (data: {}) => void;
+  private _cardPicture: HTMLImageElement;
+  private _trashBtn: HTMLButtonElement;
+  private _likeBtn: HTMLButtonElement;
+  private _likeQty: HTMLSpanElement;
+
   constructor({
     data,
     userId,
@@ -7,6 +27,17 @@ export default class Card {
     handleImageClick,
     handleTrashClick,
     handleLike,
+  }: {
+    data: ICard;
+    userId: number;
+    cardSelector: string;
+    handleImageClick: (e: { target: { src: string; alt: string } }) => void;
+    handleTrashClick: (data: {}) => void;
+    handleLike: (data: {
+      _data: { likes: [] };
+      getId: () => number;
+      updateLikes: (result: {}) => void;
+    }) => void;
   }) {
     this._data = data; // данные карточки
     this._userId = userId; // id пользователя
@@ -23,10 +54,12 @@ export default class Card {
 
   // Получение шаблона разметки
   _getTemplate() {
-    const cardElement = document
-      .querySelector(this._cardSelector)
-      .content.querySelector(".card")
-      .cloneNode(true);
+    const element: HTMLTemplateElement = document.querySelector(
+      this._cardSelector
+    );
+    const cardElement = element.content
+      .querySelector(".card")
+      .cloneNode(true) as HTMLDivElement;
     return cardElement;
   }
 
@@ -36,9 +69,9 @@ export default class Card {
   }
 
   // Изменение состояния лайка
-  updateLikes(data) {
+  updateLikes(data: ICard) {
     this._data = data;
-    this._likeQty.textContent = data.likes.length;
+    this._likeQty.textContent = data.likes.length.toString();
     this._likeBtn.classList.toggle("card__like-btn_active");
   }
 
@@ -60,7 +93,9 @@ export default class Card {
     }
 
     // Установка обработчика событий изображению
-    this._cardPicture.addEventListener("click", this._handleImageClick);
+    this._cardPicture.addEventListener("click", (evt) =>
+      this._handleImageClick(evt)
+    );
   }
 
   // Создание карточки
@@ -69,8 +104,12 @@ export default class Card {
     this._cardPicture.alt = this._data.name;
     this._cardElement.querySelector(".card__title").textContent =
       this._data.name;
-    this._likeQty.textContent = this._data.likes.length;
-    if (this._data.likes.some((item) => item._id === this._userId)) {
+    this._likeQty.textContent = this._data.likes.length.toString();
+    if (
+      this._data.likes.some((item: { _id: number }) => {
+        item._id === this._userId;
+      })
+    ) {
       this._likeBtn.classList.add("card__like-btn_active");
     }
     this._setEventListeners();
@@ -80,6 +119,6 @@ export default class Card {
   // Удаление карточки
   deleteCard() {
     this._cardElement.remove();
-    this._cardElement = "";
+    this._cardElement = null;
   }
 }

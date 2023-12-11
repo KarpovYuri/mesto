@@ -1,12 +1,15 @@
 // Класс для общения с сервером
 export default class Api {
-  constructor(options) {
+  private _baseUrl: string;
+  private _token: string;
+  
+  constructor(options: { baseUrl: string; token: string }) {
     this._baseUrl = options.baseUrl;
     this._token = options.token;
   }
 
   // Обработка ответа сервера
-  _handlingResponse(result) {
+  _handlingResponse(result: Response) {
     if (result.ok) {
       return result.json();
     } else {
@@ -34,7 +37,7 @@ export default class Api {
   }
 
   // Отправка данных профиля
-  addUserInfo(data) {
+  addUserInfo(data: { name: string; about: string }) {
     return fetch(`${this._baseUrl}users/me`, {
       method: "PATCH",
       headers: {
@@ -49,7 +52,7 @@ export default class Api {
   }
 
   // Отправка добавленной карточки
-  addCard(data) {
+  addCard(data: { link: string; name: string }) {
     return fetch(`${this._baseUrl}cards`, {
       method: "POST",
       headers: {
@@ -64,7 +67,7 @@ export default class Api {
   }
 
   // Удаление карточки
-  deleteCard(cardId) {
+  deleteCard(cardId: number) {
     return fetch(`${this._baseUrl}cards/${cardId}`, {
       method: "DELETE",
       headers: {
@@ -74,7 +77,7 @@ export default class Api {
   }
 
   // Постановка лайка карточке
-  setCardLike(cardId) {
+  setCardLike(cardId: number) {
     return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
       method: "PUT",
       headers: {
@@ -84,7 +87,7 @@ export default class Api {
   }
 
   // Снятие лайка карточки
-  removeCardLike(cardId) {
+  removeCardLike(cardId: number) {
     return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
       method: "DELETE",
       headers: {
@@ -94,7 +97,7 @@ export default class Api {
   }
 
   // Обновление аватара пользователя
-  updateAvatar(data) {
+  updateAvatar(data: { avatar: string }) {
     return fetch(`${this._baseUrl}users/me/avatar`, {
       method: "PATCH",
       headers: {
