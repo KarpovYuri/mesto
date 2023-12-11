@@ -2,14 +2,15 @@
 import "./index.css";
 
 // Импорт классов
-import Card from "../components/Card.js";
-import FormValidator from "../components/FormValidator.js";
-import Section from "../components/Section.js";
-import PopupWithImage from "../components/PopupWithImage.js";
-import PopupWithForm from "../components/PopupWithForm.js";
-import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
-import UserInfo from "../components/UserInfo.js";
-import Api from "../components/Api.js";
+import Card from "../components/Card";
+import FormValidator from "../components/FormValidator";
+import Section from "../components/Section";
+import PopupWithImage from "../components/PopupWithImage";
+import PopupWithForm from "../components/PopupWithForm";
+import PopupWithConfirmation from "../components/PopupWithConfirmation";
+import UserInfo from "../components/UserInfo";
+import Api from "../components/Api";
+import { ICard } from "../interfaces";
 
 // Импорт переменных
 import {
@@ -22,13 +23,13 @@ import {
   profileAvatar,
   formClasses,
   formValidators,
-} from "../utils/constants.js";
+} from "../utils/constants";
 
 // Переменная для id пользователя
-let userId;
+let userId: number;
 
 // Функция изменения текста кнопки на: «Сохранить»
-function removeSaving(btn) {
+function removeSaving(btn: HTMLButtonElement) {
   btn.textContent = "Сохранить";
 }
 
@@ -104,7 +105,7 @@ const deletePopup = new PopupWithConfirmation({
 });
 
 // Функция создание экземпляра карточки
-function createCard(elem) {
+function createCard(elem: ICard) {
   const cardInstance = new Card({
     data: elem,
     userId: userId,
@@ -115,7 +116,9 @@ function createCard(elem) {
       deletePopup.openPopup();
     },
     handleLike: (data) => {
-      if (data._data.likes.some((item) => item._id === userId)) {
+      if (
+        data._data.likes.some((item: { _id: number }) => item._id === userId)
+      ) {
         api
           .removeCardLike(data.getId())
           .then((result) => data.updateLikes(result))
@@ -132,15 +135,10 @@ function createCard(elem) {
 }
 
 // Создание экземпляра класса секции карточек
-const cardsList = new Section(
-  {
-    renderer: (elem) => {
-      const card = createCard(elem);
-      return card.createCard();
-    },
-  },
-  cardConteinerSelector
-);
+const cardsList = new Section((elem: ICard) => {
+  const card = createCard(elem);
+  return card.createCard();
+}, cardConteinerSelector);
 
 // Добавление пользовательской карточки
 const addPopup = new PopupWithForm({
@@ -188,11 +186,11 @@ avatarButton.addEventListener("click", () => {
 });
 
 // Функция запуска валидации
-function enableValidation(formClasses) {
+function enableValidation(formClasses: { [key: string]: string }) {
   const formList = Array.from(
     document.querySelectorAll(formClasses.formSelector)
   );
-  formList.forEach((formElement) => {
+  formList.forEach((formElement: HTMLFormElement) => {
     const validator = new FormValidator(formClasses, formElement);
     const formName = formElement.getAttribute("name");
     formValidators[formName] = validator;
